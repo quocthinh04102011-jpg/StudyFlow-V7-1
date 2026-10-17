@@ -1,0 +1,12 @@
+{
+  "name": "StudyFlow V6 - Học tập cá nhân",
+  "short_name": "StudyFlow V6",
+  "description": "StudyFlow V6: công cụ học tập, Pet và trợ lý AI cần máy chủ.",
+  "lang": "vi",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#090b18",
+  "theme_color": "#090b18",
+  "orientation": "portrait"
+}

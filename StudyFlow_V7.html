@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090b18">
+<meta name="description" content="StudyFlow V7 — ứng dụng học tập cá nhân; AI trực tuyến cần máy chủ/API.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>StudyFlow V6</title>
+<style>
+:root{--bg:#f6f8fc;--panel:#fff;--panel2:#f0f4fb;--text:#172033;--muted:#69758b;--line:#e2e8f2;--primary:#5267e8;--primary2:#7183ff;--good:#16845b;--bad:#c24151;--shadow:0 10px 28px #23365d0c}
+[data-theme="dark"]{--bg:#101522;--panel:#192131;--panel2:#222c3f;--text:#eef3ff;--muted:#a6b2c8;--line:#303b50;--primary:#8795ff;--primary2:#aab3ff;--good:#51d6a1;--bad:#ff8795;--shadow:0 10px 28px #0003}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;transition:background .2s,color .2s}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #8ca0ff;outline-offset:2px}a{color:var(--primary)}.app{max-width:1180px;margin:auto;padding:18px 16px 42px}.top{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap}.brand{display:flex;gap:12px;align-items:center}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,#6377f2,#8d9cff);display:grid;place-items:center;color:white;font-size:23px;box-shadow:var(--shadow)}h1{font-size:22px;line-height:1.2;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:4px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:12px;padding:9px 12px;font-weight:650}.btn.primary{background:var(--primary);border-color:var(--primary);color:white}.btn.soft{background:var(--panel2);border-color:transparent}.btn.danger{color:var(--bad)}.btn:disabled{opacity:.45;cursor:not-allowed}.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:18px}.sidebar,.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.sidebar{padding:12px;height:max-content;position:sticky;top:12px}.nav{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border:0;border-radius:12px;background:transparent;color:var(--muted);text-align:left;font-weight:650;margin:2px 0}.nav.active,.nav:hover{background:var(--panel2);color:var(--primary)}.nav span:first-child{width:23px;text-align:center}.content{min-width:0}.page{display:none}.page.active{display:block}.pagehead{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin:4px 0 16px}.pagehead h2{margin:0;font-size:24px;letter-spacing:-.5px}.muted{color:var(--muted)}.small{font-size:12px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stat{padding:16px}.stat .label{font-size:12px;color:var(--muted);font-weight:650}.stat .value{font-size:27px;font-weight:800;letter-spacing:-.8px;margin:4px 0}.stat .hint{font-size:12px;color:var(--muted)}.card{padding:18px;margin-bottom:14px}.card h3{margin:0 0 12px;font-size:16px}.two{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.subject-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.subject{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--panel);text-align:left;color:var(--text);min-width:0}.subject .emoji{font-size:23px}.subject strong{display:block;margin:6px 0 3px}.progress{height:8px;border-radius:99px;background:var(--panel2);overflow:hidden;margin:10px 0 3px}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--primary2));border-radius:99px}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:10px}.field{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);margin:5px 0 12px}.field.inline{width:auto;margin:0}.fieldarea{min-height:120px;resize:vertical}.quiz-options{display:grid;gap:8px}.option{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);text-align:left}.option.correct{border-color:var(--good);background:color-mix(in srgb,var(--good) 10%,var(--panel))}.option.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 9%,var(--panel))}.pill{display:inline-flex;padding:4px 9px;border-radius:99px;background:var(--panel2);color:var(--muted);font-size:12px;font-weight:700}.notice{border-radius:13px;padding:12px;background:var(--panel2);color:var(--muted);font-size:13px}.flashcard{min-height:220px;display:grid;place-items:center;text-align:center;padding:28px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,var(--panel),var(--panel2));font-size:23px;font-weight:750;cursor:pointer}.flashcard small{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-top:14px}.timer{font-size:54px;letter-spacing:-2px;font-weight:850;text-align:center;margin:14px 0}.timer-ring{width:220px;height:220px;border-radius:50%;border:10px solid var(--panel2);display:flex;flex-direction:column;justify-content:center;margin:18px auto;background:var(--panel)}.timer-ring .mode{text-align:center;color:var(--muted);font-size:12px}.timer-controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.note{padding:14px;border:1px solid var(--line);border-radius:14px;margin-top:10px}.note p{white-space:pre-wrap;overflow-wrap:anywhere}.chart{height:145px;display:flex;align-items:end;gap:9px;padding:12px 4px 0}.barwrap{height:100%;flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:6px;min-width:0}.bar{width:min(100%,32px);min-height:3px;border-radius:7px 7px 2px 2px;background:var(--primary)}.barwrap span{font-size:10px;color:var(--muted)}.checkrow{display:flex;gap:9px;align-items:center;margin:9px 0}.checkrow input{accent-color:var(--primary)}.footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px}.hide{display:none!important}.mobile-nav{display:none}.empty{text-align:center;padding:25px;color:var(--muted)}.result-big{font-size:38px;font-weight:850}.divider{border:0;border-top:1px solid var(--line);margin:16px 0}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{display:none}.mobile-nav{display:flex;position:sticky;top:0;z-index:5;background:var(--bg);padding:7px 0;gap:5px;overflow:auto}.mobile-nav .nav{white-space:nowrap;width:auto;margin:0;padding:9px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}.subject-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.app{padding:12px 12px 30px}.pagehead h2{font-size:22px}}
+@media(max-width:390px){.subject-grid{grid-template-columns:1fr}.stat{padding:12px}.stat .value{font-size:23px}.timer{font-size:45px}}
+
+.task-item{display:flex;gap:10px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.task-item:last-child{border-bottom:0}.task-item input{margin-top:5px;accent-color:var(--primary)}
+.task-done{opacity:.62;text-decoration:line-through}.review-item{padding:13px;border:1px solid var(--line);border-radius:14px;margin:9px 0}
+[data-theme="amoled"]{--bg:#000;--panel:#050505;--panel2:#111;--text:#f5f5f5;--muted:#aaa;--line:#252525;--primary:#9a7bff;--primary2:#c0aaff;--good:#5ee0aa;--bad:#ff7185;--shadow:none}
+[data-theme="neon"]{--bg:#090b18;--panel:#12152a;--panel2:#1d2040;--text:#f2f5ff;--muted:#aeb5d9;--line:#30345f;--primary:#00e5ff;--primary2:#ff4fd8;--good:#55f7a6;--bad:#ff6685;--shadow:0 0 20px #00e5ff16}
+
+#studyBoard{max-width:100%;background-image:linear-gradient(#e9eef4 1px,transparent 1px),linear-gradient(90deg,#e9eef4 1px,transparent 1px);background-size:24px 24px}
+#savedBoards .note{overflow-wrap:anywhere}
+@media(max-width:700px){#page-labboard .two{grid-template-columns:minmax(0,1fr)}#page-labboard .row .field.inline{max-width:100%}#studyBoard{height:260px!important}}
+[data-theme="neon"] .card,[data-theme="neon"] .sidebar{box-shadow:0 0 20px #00e5ff16;border-color:#39447a}[data-theme="neon"] .btn.primary{color:#08111e;box-shadow:0 0 14px #00e5ff40}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="logo">✦</div><div><h1>StudyFlow <span class="pill">V6.1</span></h1><div class="sub">Học gọn mỗi ngày · Dữ liệu lưu trên thiết bị</div></div></div>
+  <div class="actions"><button class="btn" id="themeBtn" aria-label="Đổi giao diện">🌙 Giao diện</button><button class="btn" id="soundBtn">🔔 Âm thanh: bật</button></div>
+</header>
+<nav class="mobile-nav" id="mobileNav"></nav>
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+<main class="content">
+<section class="page active" id="page-home">
+ <div class="pagehead"><div><h2>Chào bạn 👋</h2><div class="muted">Một chút tiến bộ mỗi ngày tạo nên khác biệt.</div></div><button class="btn primary" data-go="quiz">Bắt đầu quiz →</button></div>
+ <div class="grid" id="homeStats"></div>
+ <div class="two" style="margin-top:14px">
+  <div class="card"><div class="between"><h3>📚 Môn học</h3><button class="btn soft" data-go="subjects">Xem tất cả</button></div><div id="homeSubjects" class="subject-grid"></div></div>
+  <div class="card"><h3>📈 Tiến độ 7 ngày</h3><div class="muted small">Số phiên học đã hoàn thành</div><div id="homeChart" class="chart"></div><div class="notice" id="dailyTip" style="margin-top:12px">Mẹo: học 25 phút rồi nghỉ ngắn.</div></div>
+ </div>
+ <div class="card"><div class="between"><h3>⚡ Học nhanh</h3><span class="pill">Chọn một công cụ</span></div><div class="row"><button class="btn" data-go="timer">⏱ Pomodoro</button><button class="btn" data-go="flashcards">🗂 Flashcard</button><button class="btn" data-go="notes">📝 Ghi chú</button><button class="btn" data-go="exam">🧪 Thi thử</button></div></div>
+</section>
+<section class="page" id="page-subjects"><div class="pagehead"><div><h2>Môn học</h2><div class="muted">Theo dõi và chọn nội dung ôn tập.</div></div><button class="btn primary" id="addSubjectBtn">＋ Thêm môn</button></div><div class="subject-grid" id="subjectList"></div></section>
+<section class="page" id="page-quiz"><div class="pagehead"><div><h2>Quiz luyện tập</h2><div class="muted">Chọn đáp án, nhận phản hồi ngay.</div></div><select class="field inline" id="quizSubject" aria-label="Chọn môn"></select></div><div class="card" id="quizBox"></div></section>
+<section class="page" id="page-flashcards"><div class="pagehead"><div><h2>Flashcard</h2><div class="muted">Chạm thẻ để xem mặt sau.</div></div><button class="btn primary" id="addCardBtn">＋ Tạo thẻ</button></div><div class="card"><div class="between"><span class="pill" id="cardCount">Thẻ 1/1</span><span class="muted small">Ôn tập chủ động</span></div><div class="flashcard" id="flashcard" role="button" tabindex="0"></div><div class="timer-controls" style="margin-top:14px"><button class="btn" id="prevCard">← Trước</button><button class="btn" id="flipCard">Lật thẻ</button><button class="btn primary" id="nextCard">Tiếp →</button></div></div><div class="card"><h3>Bộ thẻ của bạn</h3><div id="cardList"></div></div></section>
+<section class="page" id="page-timer"><div class="pagehead"><div><h2>Pomodoro</h2><div class="muted">Tập trung theo phiên, tự ghi nhận khi hoàn tất.</div></div></div><div class="card"><div class="row" style="justify-content:center"><button class="btn modeBtn primary" data-mode="focus">Tập trung 25′</button><button class="btn modeBtn" data-mode="short">Nghỉ ngắn 5′</button><button class="btn modeBtn" data-mode="long">Nghỉ dài 15′</button></div><div class="timer-ring"><div class="mode" id="timerMode">TẬP TRUNG</div><div class="timer" id="timerDisplay">25:00</div></div><div class="timer-controls"><button class="btn primary" id="timerStart">▶ Bắt đầu</button><button class="btn" id="timerReset">↺ Đặt lại</button></div><div class="notice" style="margin-top:18px">Mẹo: đặt một mục tiêu nhỏ trước mỗi phiên. Đồng hồ chạy khi trang đang mở.</div></div></section>
+<section class="page" id="page-notes"><div class="pagehead"><div><h2>Ghi chú</h2><div class="muted">Lưu nhanh ý chính, công thức và câu hỏi.</div></div></div><div class="card"><label for="noteTitle">Tiêu đề</label><input class="field" id="noteTitle" maxlength="100" placeholder="Ví dụ: Công thức lượng giác"><label for="noteBody">Nội dung</label><textarea class="field fieldarea" id="noteBody" maxlength="10000" placeholder="Viết ghi chú của bạn..."></textarea><div class="row"><button class="btn primary" id="saveNote">Lưu ghi chú</button><input class="field inline" id="noteSearch" placeholder="Tìm ghi chú..." aria-label="Tìm ghi chú"></div></div><div id="notesList"></div></section>
+<section class="page" id="page-stats"><div class="pagehead"><div><h2>Thống kê tiến độ</h2><div class="muted">Dữ liệu học tập được lưu cục bộ.</div></div></div><div class="grid" id="statsGrid"></div><div class="card"><h3>Hoạt động 7 ngày gần nhất</h3><div id="statsChart" class="chart"></div></div><div class="card"><h3>Kết quả quiz</h3><div id="quizHistory"></div></div></section>
+<section class="page" id="page-exam"><div class="pagehead"><div><h2>Thi thử</h2><div class="muted">Bài kiểm tra có giới hạn thời gian và chấm điểm tự động.</div></div></div><div class="card" id="examBox"></div></section>
+<section class="page" id="page-ai"><div class="pagehead"><div><h2>Trợ lý AI</h2><div class="muted">V6 · Trợ lý học tập, giải ảnh qua model vision, công cụ ôn tập và Pet.</div></div></div>
+<div class="card"><div class="row"><span style="font-size:30px">🤖</span><div><h3 style="margin:0">Trợ lý học tập AI · V6</h3><span class="pill" id="aiConnectionPill">Chưa kiểm tra máy chủ</span></div></div>
+<p>Nhập câu hỏi học tập bên dưới. Chọn mô hình và kiểu trả lời ở đây. API key được giữ ở máy chủ, không cần nhập trong website và không được nhúng vào tệp HTML.</p>
+<div class="field"><label for="aiEndpoint">Địa chỉ máy chủ AI (endpoint)</label><input id="aiEndpoint" type="url" placeholder="/api/ai" value="/api/ai" autocomplete="url"><small class="muted">Khi triển khai chung website + máy chủ, giữ mặc định /api/ai. Nhà cung cấp (ví dụ Totu AI) được cấu hình ở máy chủ; không nhập API key tại đây.</small></div>
+<div class="field"><label for="aiProvider">Nhà cung cấp (cần cấu hình máy chủ)</label><select id="aiProvider"><option value="totu">Totu AI (theo cấu hình máy chủ)</option><option value="openai">OpenAI (cần cấu hình máy chủ)</option><option value="compatible">Nhà cung cấp tương thích (cần cấu hình)</option></select><small class="muted">Lựa chọn giao diện không tự đổi nhà cung cấp thật. Cấu hình AI_BASE_URL và AI_API_KEY trên máy chủ.</small></div>
+<div class="field"><label for="aiModel">Chọn mô hình AI</label><select id="aiModel"><option value="gpt-4.1-mini">GPT-4.1 mini · nhanh, tiết kiệm</option><option value="gpt-5.4">GPT-5.4 · nâng cao (nếu nhà cung cấp hỗ trợ)</option><option value="deepseek-v4-flash">DeepSeek V4 Flash (nếu nhà cung cấp hỗ trợ)</option><option value="deepseek-v4-pro">DeepSeek V4 Pro (nếu nhà cung cấp hỗ trợ)</option><option value="qwen3.5-plus">Qwen 3.5 Plus (nếu nhà cung cấp hỗ trợ)</option><option value="custom">Tự nhập tên mô hình…</option></select></div>
+<div class="field" id="aiCustomModelWrap" style="display:none"><label for="aiCustomModel">Tên mô hình tùy chỉnh</label><input id="aiCustomModel" type="text" placeholder="Nhập chính xác model ID từ nhà cung cấp"></div>
+<div class="field"><label for="aiMode">Kiểu trả lời</label><select id="aiMode"><option value="tutor">Gia sư · giải thích từng bước</option><option value="short">Ngắn gọn · đi thẳng ý chính</option><option value="quiz">Tạo câu hỏi trắc nghiệm</option><option value="translate">Dịch và giải thích từ vựng</option><option value="plan">Lập kế hoạch học tập</option></select></div>
+<div class="row" style="margin:8px 0 12px"><button class="btn" id="voiceInputBtn" type="button">🎙️ Nhập bằng giọng nói</button><button class="btn" id="speakAnswerBtn" type="button">🔊 Đọc câu trả lời</button><label class="btn" for="aiImageFile">🖼️ Chọn ảnh đề bài</label><input id="aiImageFile" type="file" accept="image/*" class="hide"><span id="aiImageStatus" class="muted small">Ảnh chưa được gửi đến AI.</span></div><div class="notice small">Nhận giọng nói/đọc văn bản phụ thuộc trình duyệt. Khi có backend V6.1 và model vision tương thích, ảnh đã chọn sẽ được gửi tới máy chủ AI để phân tích. Chỉ tải ảnh bạn có quyền chia sẻ; giới hạn 5 MB.</div>
+<div class="field"><label for="aiPrompt">Câu hỏi của bạn</label><textarea id="aiPrompt" rows="5" placeholder="Ví dụ: Giải thích định luật Newton bằng ví dụ dễ hiểu..."></textarea></div>
+<div class="row" style="flex-wrap:wrap"><button class="btn primary" id="aiSendBtn">Gửi câu hỏi</button><button class="btn" id="aiTestBtn">Kiểm tra kết nối</button><button class="btn" id="aiCancelBtn" disabled>Hủy yêu cầu</button></div>
+<div class="notice" id="aiStatus" role="status" aria-live="polite">AI chưa được kiểm tra. Hãy triển khai backend và cấu hình AI_API_KEY trên máy chủ.</div>
+<div id="aiOutput" class="card" style="display:none;white-space:pre-wrap;margin-top:14px"></div>
+<hr class="divider"><p class="muted">Nếu bạn chỉ mở file HTML trực tiếp bằng trình duyệt, AI trực tuyến sẽ không hoạt động vì chưa có máy chủ. Xem README trong gói V6 để triển khai trên Android hoặc máy chủ HTTPS.</p></div></section>
+<section class="page" id="page-backup"><div class="pagehead"><div><h2>Sao lưu & khôi phục</h2><div class="muted">Xuất dữ liệu thành JSON để cất giữ hoặc chuyển thiết bị.</div></div></div><div class="card"><h3>📦 Sao lưu dữ liệu</h3><p class="muted">Bao gồm ghi chú, flashcard, tiến độ, lịch sử quiz, môn học và cài đặt.</p><button class="btn primary" id="exportBtn">Tải bản sao lưu JSON</button><hr class="divider"><h3>♻️ Khôi phục dữ liệu</h3><p class="muted">Chỉ chọn tệp JSON được xuất từ StudyFlow. Dữ liệu hiện tại sẽ được thay bằng dữ liệu trong tệp.</p><input type="file" class="field" id="importFile" accept=".json,application/json"><button class="btn" id="importBtn">Khôi phục từ tệp</button><div id="backupMsg" class="notice" style="margin-top:12px">Chưa có thao tác nào.</div><hr class="divider"><button class="btn danger" id="clearData">Xóa toàn bộ dữ liệu trên thiết bị</button></div></section>
+<section class="page" id="page-settings"><div class="pagehead"><div><h2>Cài đặt</h2><div class="muted">Tùy chỉnh trải nghiệm học tập.</div></div></div><div class="card"><label class="checkrow"><input type="checkbox" id="settingDark"> Giao diện tối</label><label class="checkrow"><input type="checkbox" id="settingSound"> Âm thanh khi tương tác và báo giờ</label><label for="focusLength">Thời lượng tập trung (phút)</label><input class="field" type="number" id="focusLength" min="1" max="180" value="25"><label for="shortLength">Nghỉ ngắn (phút)</label><input class="field" type="number" id="shortLength" min="1" max="60" value="5"><label for="longLength">Nghỉ dài (phút)</label><input class="field" type="number" id="longLength" min="1" max="90" value="15"><button class="btn primary" id="saveSettings">Lưu cài đặt</button></div><div class="card"><h3>Về StudyFlow V2</h3><p>Ứng dụng HTML/CSS/JavaScript chạy cục bộ, không cần tài khoản. Dữ liệu lưu trong bộ nhớ của trình duyệt trên thiết bị.</p><div class="notice">Lưu ý: xóa dữ liệu trình duyệt hoặc mở ứng dụng bằng một trình duyệt khác có thể làm dữ liệu cục bộ không còn truy cập được. Hãy sao lưu định kỳ.</div></div></section>
+
+<section class="page" id="page-v6">
+<div class="pagehead"><div><h2>✨ V6 Lab & Nuôi Pet</h2><div class="muted">Pet, giao diện nâng cao và ôn tập cục bộ.</div></div></div>
+<div class="card"><h3>🐾 Pet học tập</h3><div class="row"><div id="petFace" style="font-size:64px">🐱</div><div style="flex:1"><strong id="petName">Mèo Neon</strong><div id="petMood" class="muted small">Đang chờ bạn học cùng.</div><div class="progress"><i id="petProgress" style="width:0%"></i></div><div id="petStats" class="small">XP: 0 · Xu: 8 · Cấp 1</div></div></div><div class="row" style="margin-top:12px"><button class="btn primary" id="petFeed">🍎 Cho ăn (2 xu)</button><button class="btn" id="petPlay">🎾 Chơi cùng</button><button class="btn" id="petRename">✏️ Đổi tên</button><button class="btn" id="petQuestion">🧩 Câu hỏi khó</button></div><div id="petQuestionBox" class="notice" style="margin-top:12px">Trả lời câu hỏi khó để nhận XP và xu.</div></div>
+<div class="card"><h3>🎨 Giao diện nâng cao</h3><div class="row"><select class="field inline" id="themePreset"><option value="light">Sáng</option><option value="dark">Tối</option><option value="amoled">AMOLED</option><option value="neon">Neon</option><option value="custom">Màu tùy chỉnh</option></select><input id="customColor" type="color" value="#5267e8" class="field inline"><button class="btn primary" id="applyThemePreset">Áp dụng</button></div></div>
+<div class="card"><h3>🧩 Tùy chỉnh điều hướng</h3><p class="muted small">Ẩn mục khỏi thanh điều hướng mà không xóa dữ liệu.</p><div id="navCustomize" class="grid"></div><button class="btn primary" id="saveNavCustomize">Lưu bố cục</button></div>
+<div class="card"><h3>📅 Ôn flashcard theo lịch</h3><div class="row"><button class="btn" id="reviewDue">Xem thẻ đến hạn</button><button class="btn" id="reviewKnown">Đã nhớ thẻ hiện tại</button><button class="btn" id="reviewAgain">Cần ôn lại</button></div><div id="reviewDueMsg" class="notice" style="margin-top:10px">Lịch ôn lưu trên thiết bị, không có thông báo nền.</div></div>
+<div class="card"><h3>🔌 Những gì đã kết nối</h3><ul><li><b>Cục bộ:</b> Pet và câu hỏi khó, giao diện sáng/tối/AMOLED/Neon/màu nhấn, điều hướng tùy chỉnh, lịch ôn thẻ, backup JSON.</li><li><b>Cần máy chủ/API:</b> AI trực tuyến và tạo nội dung AI. Khóa API phải nằm ở máy chủ.</li><li><b>Chưa kết nối:</b> giải ảnh bằng AI và đồng bộ đám mây đa thiết bị. Không giả lập hai chức năng này.</li></ul></div>
+</section>
+\n<section class="page" id="page-calendar">
+ <div class="pagehead"><div><h2>🗓 Lịch học</h2><div class="muted">Tạo việc cần học và đánh dấu khi hoàn tất.</div></div></div>
+ <div class="card"><h3>Thêm nhiệm vụ</h3><label for="taskTitle">Nội dung</label><input class="field" id="taskTitle" maxlength="140" placeholder="Ví dụ: Ôn 20 từ vựng tiếng Anh"><div class="two"><div><label for="taskDate">Ngày học</label><input class="field" id="taskDate" type="date"></div><div><label for="taskSubject">Môn học</label><select class="field" id="taskSubject"></select></div></div><button class="btn primary" id="addTask">＋ Thêm vào lịch</button></div>
+ <div class="card"><div class="between"><h3>Nhiệm vụ học tập</h3><span class="pill" id="taskSummary">0 nhiệm vụ</span></div><div id="taskList"></div></div>
+</section>
+<section class="page" id="page-goals">
+ <div class="pagehead"><div><h2>🎯 Mục tiêu & thành tựu</h2><div class="muted">Đặt mục tiêu phiên học hằng ngày và theo dõi chuỗi ngày.</div></div></div>
+ <div class="grid" id="goalStats"></div>
+ <div class="card"><h3>Mục tiêu mỗi ngày</h3><label for="dailyGoalInput">Số phiên tập trung cần hoàn thành</label><input class="field" id="dailyGoalInput" type="number" min="1" max="20" value="2"><button class="btn primary" id="saveGoal">Lưu mục tiêu</button><div id="goalProgress" style="margin-top:14px"></div></div>
+ <div class="card"><h3>🏅 Thành tựu</h3><div id="achievementList"></div></div>
+</section>
+<section class="page" id="page-adaptive">
+ <div class="pagehead"><div><h2>🧠 Ôn tập thông minh</h2><div class="muted">Câu trả lời sai được đưa vào danh sách ôn lại trên thiết bị.</div></div><button class="btn primary" id="startReview">Ôn câu cần nhớ</button></div>
+ <div class="grid" id="adaptiveStats"></div>
+ <div class="card"><h3>Câu cần ôn lại</h3><p class="muted small">Các câu trả lời sai trong quiz được lưu cục bộ. Nhấn “Đã nhớ” để bỏ câu khỏi danh sách.</p><div id="reviewList"></div></div>
+</section>
+<section class="page" id="page-questionbank">
+ <div class="pagehead"><div><h2>📥 Ngân hàng câu hỏi</h2><div class="muted">Nhập/xuất bộ câu hỏi bằng JSON để dùng quiz cá nhân.</div></div></div>
+ <div class="card"><h3>Nhập câu hỏi</h3><p class="muted">Mỗi câu cần có <code>s</code> (mã môn), <code>q</code> (nội dung), <code>o</code> (4 lựa chọn), <code>a</code> (chỉ số đáp án đúng từ 0 đến 3); <code>e</code> là giải thích tùy chọn.</p><textarea class="field fieldarea" id="questionJson" placeholder='[{"s":"math","q":"2 + 2 = ?","o":["2","3","4","5"],"a":2,"e":"2 + 2 = 4."}]'></textarea><div class="row"><button class="btn primary" id="importQuestions">Kiểm tra & nhập</button><button class="btn" id="exportQuestions">Xuất ngân hàng câu hỏi</button><input type="file" class="field inline" id="questionFile" accept=".json,application/json"></div><div id="questionMsg" class="notice" style="margin-top:12px">Chưa nhập câu hỏi nào trong phiên này.</div></div>
+ <div class="card"><div class="between"><h3>Câu hỏi cá nhân</h3><span class="pill" id="questionCount">0 câu</span></div><div id="customQuestionList"></div></div>
+</section>
+
+<section class="page" id="page-labboard">
+ <div class="pagehead"><div><h2>🧪 Bảng học tập, Pet & thử thách</h2><div class="muted">Bảng viết như ngoài đời, thú cưng nhiều loài và thành tích học tập.</div></div></div>
+ <div class="card">
+  <h3>🧑‍🔬 Bảng viết Toán · Lý · Hóa</h3>
+  <div class="row">
+   <select class="field inline" id="boardSubject" aria-label="Môn của bảng"><option value="Toán">📐 Toán</option><option value="Vật lí">⚡ Vật lí</option><option value="Hóa học">🧪 Hóa học</option><option value="Ghi chú chung">📝 Ghi chú chung</option></select>
+   <button class="btn" id="boardPen">✏️ Bút</button><button class="btn" id="boardEraser">🧽 Tẩy</button><input id="boardColor" type="color" value="#202938" aria-label="Màu bút" style="width:44px;height:42px;border:0;background:transparent">
+   <label class="small">Nét <input id="boardWidth" type="range" min="1" max="18" value="3"></label>
+   <button class="btn" id="boardClear">Xóa bảng</button><button class="btn primary" id="boardSave">Lưu bảng</button>
+  </div>
+  <canvas id="studyBoard" aria-label="Bảng viết có thể vẽ bằng ngón tay" style="display:block;width:100%;height:320px;touch-action:none;border:1px solid var(--line);border-radius:12px;background:#fff;margin:10px 0"></canvas>
+  <label for="boardText">Ghi công thức / nội dung bằng bàn phím</label><textarea class="field fieldarea" id="boardText" placeholder="Ví dụ: F = m × a&#10;H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O"></textarea>
+  <div class="row"><button class="btn primary" id="boardSaveText">Lưu nội dung</button><button class="btn" id="boardExport">Tải ảnh bảng PNG</button><span class="muted small" id="boardMsg">Bảng lưu cục bộ trên thiết bị này.</span></div>
+  <div id="savedBoards"></div>
+ </div>
+ <div class="two">
+  <div class="card">
+   <h3>🐾 Vườn thú StudyFlow</h3>
+   <p class="muted small">Nuôi nhiều loại thú. Chăm sóc và phần thưởng được lưu trên thiết bị này.</p>
+   <div class="row"><select class="field inline" id="petSpecies"><option value="cat">🐱 Mèo</option><option value="dog">🐶 Chó</option><option value="fox">🦊 Cáo</option><option value="rabbit">🐰 Thỏ</option><option value="panda">🐼 Gấu trúc</option><option value="dragon">🐉 Rồng</option><option value="owl">🦉 Cú mèo</option><option value="turtle">🐢 Rùa</option></select><input class="field inline" id="petNewName" maxlength="24" placeholder="Tên thú cưng"><button class="btn primary" id="petAdopt">＋ Nhận nuôi</button></div>
+   <div id="petZoo" class="subject-grid"></div>
+   <div class="row"><button class="btn" id="petFeedAll">🍎 Cho thú ăn (2 xu)</button><button class="btn" id="petPlayAll">🎾 Chơi cùng (nhận XP)</button></div>
+   <div class="notice" id="petZooMsg" style="margin-top:10px">Mỗi thú có cấp độ và XP riêng. Không có mua bán bằng tiền thật.</div>
+  </div>
+  <div class="card">
+   <h3>🔥 Thử thách hằng ngày</h3>
+   <p class="muted small">Tích chuỗi khi hoàn thành ít nhất một thử thách trong ngày. Không cần mạng.</p>
+   <div id="dailyChallenges"></div>
+   <div class="divider"></div>
+   <h3>🏆 Thành tích & bảng xếp hạng</h3>
+   <div id="achievementBoard"></div>
+   <div class="notice small">Bảng xếp hạng hiện là thành tích cục bộ của thiết bị/tài khoản trình duyệt này, không phải bảng toàn cầu. Bảng online cần máy chủ và tài khoản.</div>
+  </div>
+ </div>
+ <div class="card">
+  <h3>🧠 Lập kế hoạch ôn tập</h3>
+  <div class="row"><select id="studySubject" class="field inline"><option>Toán</option><option>Vật lí</option><option>Hóa học</option><option>Tiếng Anh</option><option>Ngữ văn</option><option>Môn khác</option></select><input id="studyMinutes" class="field inline" type="number" min="10" max="240" step="5" value="45" style="width:110px" aria-label="Số phút"><button class="btn primary" id="makeStudyPlan">Tạo kế hoạch</button></div>
+  <div id="studyPlan" class="notice">Kế hoạch được tạo theo mẫu cục bộ. Muốn kế hoạch cá nhân hóa bởi AI, cần máy chủ/API AI đang hoạt động.</div>
+ </div>
+</section>
+
+
+<section class="page" id="page-online"><div class="pagehead"><h2>🌐 Tài khoản & bảng xếp hạng online</h2></div>
+<div class="card"><h3>Đăng ký / Đăng nhập</h3><p class="muted">Tài khoản chỉ hoạt động khi chạy máy chủ StudyFlow V7. Mở HTML offline không thể đăng nhập.</p><label>Tên tài khoản</label><input class="field" id="onlineUser" autocomplete="username" maxlength="32" placeholder="Tên tài khoản"><label>Mật khẩu</label><input class="field" id="onlinePass" type="password" autocomplete="current-password" placeholder="Ít nhất 8 ký tự"><div class="row"><button class="btn primary" id="onlineLogin">Đăng nhập</button><button class="btn" id="onlineRegister">Đăng ký</button><button class="btn" id="onlineLogout">Đăng xuất</button></div><div class="notice" id="onlineStatus" role="status">Chưa kết nối máy chủ.</div></div>
+<div class="card"><h3>🏆 Bảng xếp hạng thật</h3><p class="muted">Điểm được ghi từ tài khoản đăng nhập trên máy chủ. Không có dữ liệu mẫu hoặc đối thủ ảo. Điểm thử thách cục bộ không tự động chuyển thành điểm online.</p><div class="row"><button class="btn primary" id="onlineRefresh">Tải bảng xếp hạng</button><button class="btn" id="onlineEarn">Điểm danh học hôm nay (+10 điểm)</button></div><div id="onlineRanks" class="notice">Chưa tải.</div></div></section>
+</main></div><div class="footer">StudyFlow V7 · Học tập cá nhân · Không gửi dữ liệu đi đâu khi chưa tích hợp dịch vụ ngoài.</div>
+</div>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const STORAGE_KEY = 'studyflow-v2-data'; // Giữ khóa cũ để V3 tiếp tục dùng dữ liệu V2.
+const navItems = [
+ ['home','⌂','Tổng quan'],['subjects','📚','Môn học'],['quiz','✓','Quiz'],['flashcards','▤','Flashcard'],['timer','◷','Pomodoro'],['notes','✎','Ghi chú'],['stats','↗','Thống kê'],['exam','⚑','Thi thử'],['ai','✦','Trợ lý AI'],['v6','🐾','V6 Lab & Pet'],['calendar','🗓','Lịch học'],['goals','🎯','Mục tiêu'],['adaptive','🧠','Ôn tập thông minh'],['questionbank','📥','Ngân hàng câu hỏi'],['labboard','✏️','Bảng viết & thử thách'],['online','🌐','Tài khoản & BXH'],['backup','⇅','Sao lưu'],['settings','⚙','Cài đặt']
+];
+const defaultSubjects = [
+ {id:'english',name:'Tiếng Anh',emoji:'🇬🇧',desc:'Từ vựng và ngữ pháp',color:'#6478ef',goal:20},
+ {id:'math',name:'Toán học',emoji:'📐',desc:'Tư duy và công thức',color:'#19a783',goal:20},
+ {id:'physics',name:'Vật lí',emoji:'⚡',desc:'Cơ học, điện và năng lượng',color:'#e59a3a',goal:15},
+ {id:'chemistry',name:'Hóa học',emoji:'🧪',desc:'Nguyên tố và phản ứng',color:'#d36cef',goal:15},
+ {id:'history',name:'Lịch sử',emoji:'🏛️',desc:'Sự kiện và dòng thời gian',color:'#a16ce0',goal:10},
+ {id:'literature',name:'Ngữ văn',emoji:'📖',desc:'Đọc hiểu và viết',color:'#e16b86',goal:10},
+ {id:'skills',name:'Kỹ năng học',emoji:'🧠',desc:'Phương pháp học hiệu quả',color:'#36a4c5',goal:10}
+];
+const questionBank = [
+ {s:'english',q:'Chọn nghĩa đúng của “curious”.',o:['Tò mò','Mệt mỏi','Bình tĩnh','Cẩn thận'],a:0,e:'Curious nghĩa là tò mò, ham tìm hiểu.'},
+ {s:'english',q:'Chọn dạng quá khứ của “go”.',o:['Goed','Gone','Went','Going'],a:2,e:'Went là dạng quá khứ đơn của go.'},
+ {s:'english',q:'“She ___ to school every day.”',o:['go','goes','going','gone'],a:1,e:'Với she ở hiện tại đơn, động từ thêm -s/-es.'},
+ {s:'math',q:'12 × 8 bằng bao nhiêu?',o:['86','92','96','108'],a:2,e:'12 × 8 = 96.'},
+ {s:'math',q:'Diện tích hình chữ nhật dài 7, rộng 4 là?',o:['11','22','28','35'],a:2,e:'Diện tích = dài × rộng = 7 × 4 = 28.'},
+ {s:'math',q:'Nếu x + 9 = 15 thì x bằng?',o:['4','5','6','7'],a:2,e:'Trừ 9 ở hai vế: x = 15 − 9 = 6.'},
+ {s:'science',q:'Hành tinh nào gần Mặt Trời nhất?',o:['Trái Đất','Sao Kim','Sao Thủy','Sao Hỏa'],a:2,e:'Sao Thủy là hành tinh gần Mặt Trời nhất.'},
+ {s:'science',q:'Nước tinh khiết đóng băng ở nhiệt độ nào (áp suất thường)?',o:['0°C','10°C','32°C','100°C'],a:0,e:'Nước đóng băng ở 0°C.'},
+ {s:'history',q:'Kim tự tháp Giza nằm ở quốc gia nào?',o:['Hy Lạp','Ai Cập','Mexico','Ấn Độ'],a:1,e:'Quần thể kim tự tháp Giza nằm ở Ai Cập.'},
+ {s:'literature',q:'Biện pháp tu từ so sánh thường dùng để làm gì?',o:['Đối chiếu sự vật có nét tương đồng','Kể theo thứ tự thời gian','Nêu số liệu','Đặt câu hỏi'],a:0,e:'So sánh làm nổi bật đặc điểm qua nét tương đồng.'},
+ {s:'skills',q:'Kỹ thuật Pomodoro phổ biến thường bắt đầu với phiên tập trung bao lâu?',o:['5 phút','15 phút','25 phút','90 phút'],a:2,e:'Một phiên Pomodoro phổ biến là 25 phút tập trung.'}
+];
+const initial = {
+ version:7,theme:'neon',sound:true,settings:{focus:25,short:5,long:15},tasks:[],reviewQuestions:[],dailyGoal:2,achievements:[],notificationEnabled:false,
+ subjects:defaultSubjects,notes:[],cards:[
+ {id:'c1',front:'Pomodoro là gì?',back:'Phương pháp chia thời gian thành phiên tập trung và nghỉ ngắn.'},
+ {id:'c2',front:'Học chủ động (active recall)',back:'Tự truy xuất kiến thức từ trí nhớ thay vì chỉ đọc lại.'},
+ {id:'c3',front:'Ôn tập ngắt quãng',back:'Ôn lại theo khoảng thời gian tăng dần để củng cố trí nhớ.'},
+ {id:'c4',front:'Một mục tiêu SMART',back:'Cụ thể, đo lường được, khả thi, phù hợp và có thời hạn.'}
+ ],sessions:[],quizHistory:[],activity:{},customQuestions:[]
+};
+let data = loadData(), currentPage='home', quizState=null, cardIndex=0, cardFlipped=false, timerMode='focus', remaining=25*60, timerInterval=null, examState=null, examInterval=null;
+function mergeSubjects(old){const wanted=['math','physics','chemistry','literature','english'];const oldList=Array.isArray(old)?old:[];return wanted.map(id=>oldList.find(x=>x.id===id)||structuredClone(defaultSubjects.find(x=>x.id===id)));}
+function loadData(){try{const d=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(!d||typeof d!=='object')return structuredClone(initial);return {...structuredClone(initial),...d,settings:{...initial.settings,...d.settings},subjects:mergeSubjects(d.subjects),notes:Array.isArray(d.notes)?d.notes:[],cards:Array.isArray(d.cards)?d.cards:structuredClone(initial.cards),sessions:Array.isArray(d.sessions)?d.sessions:[],quizHistory:Array.isArray(d.quizHistory)?d.quizHistory:[],activity:d.activity||{}}}catch(e){return JSON.parse(JSON.stringify(initial))}}
+function save(){try{data.version=3;localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}catch(e){console.warn('Không lưu được dữ liệu',e);}}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function today(){return new Date().toISOString().slice(0,10)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function beep(freq=660,duration=.12){if(!data.sound)return;try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),o=c.createOscillator(),g=c.createGain();o.frequency.value=freq;o.type='sine';g.gain.value=.06;o.connect(g);g.connect(c.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+duration);o.stop(c.currentTime+duration);o.onended=()=>c.close()}catch(e){}}
+function setTheme(theme){data.theme=theme;document.documentElement.dataset.theme=theme;$('#themeBtn').textContent=theme==='dark'?'☀️ Giao diện':'🌙 Giao diện';$('#settingDark').checked=theme==='dark';save()}
+function setSound(v){data.sound=v;$('#soundBtn').textContent=v?'🔔 Âm thanh: bật':'🔕 Âm thanh: tắt';$('#settingSound').checked=v;save()}
+function navMarkup(){let hidden=[];try{hidden=JSON.parse(localStorage.getItem('studyflow-v6-extra')||'{}').hidden||[]}catch{}return navItems.map(([id,ico,label])=>`<button class="nav ${id===currentPage?'active':''} ${hidden.includes(id)?'hide':''}" data-go="${id}"><span>${ico}</span><span>${label}</span></button>`).join('')}
+function renderNav(){$('#sidebar').innerHTML=navMarkup();$('#mobileNav').innerHTML=navMarkup()}
+function go(page){currentPage=page;$$('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));renderNav();window.scrollTo({top:0,behavior:'smooth'});if(page==='quiz'&&!quizState)startQuiz();if(page==='exam'&&!examState)renderExamIntro();if(page==='flashcards')renderCards();if(page==='notes')renderNotes();if(page==='stats')renderStats();if(page==='subjects')renderSubjects();if(page==='home')renderHome();if(page==='calendar')renderCalendar();if(page==='goals')renderGoals();if(page==='adaptive')renderAdaptive();if(page==='questionbank')renderQuestionBank()}
+function logActivity(){const t=today();data.activity[t]=(data.activity[t]||0)+1;save()}
+function streak(){let n=0,d=new Date();while(true){const k=d.toISOString().slice(0,10);if((data.activity[k]||0)>0){n++;d.setDate(d.getDate()-1)}else break}return n}
+function statCard(label,value,hint){return `<div class="card stat"><div class="label">${label}</div><div class="value">${value}</div><div class="hint">${hint}</div></div>`}
+function last7(){const arr=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const key=d.toISOString().slice(0,10);arr.push({key,label:['CN','T2','T3','T4','T5','T6','T7'][d.getDay()],n:data.activity[key]||0})}return arr}
+function chartHTML(){const a=last7(),max=Math.max(1,...a.map(x=>x.n));return a.map(x=>`<div class="barwrap" title="${x.key}: ${x.n} phiên"><div class="bar" style="height:${Math.max(3,x.n/max*100)}%"></div><span>${x.label}</span></div>`).join('')}
+function renderHome(){const total=data.quizHistory.length,avg=total?Math.round(data.quizHistory.reduce((s,q)=>s+q.percent,0)/total):0;$('#homeStats').innerHTML=statCard('🔥 Chuỗi ngày',streak(),'ngày học liên tiếp')+statCard('⏱ Phiên học',data.sessions.length,'phiên hoàn tất')+statCard('✓ Quiz đã làm',total,'bài đã chấm')+statCard('🎯 Điểm trung bình',avg+'%',total?'trên các quiz':'bắt đầu làm quiz');$('#homeSubjects').innerHTML=data.subjects.slice(0,3).map(subjectHTML).join('');$('#homeChart').innerHTML=chartHTML();$('#dailyTip').textContent=['Mẹo: hãy tự kiểm tra trí nhớ trước khi đọc lại.','Mẹo: nghỉ ngắn giúp bạn duy trì tập trung.','Mẹo: chia mục tiêu lớn thành bước nhỏ.','Mẹo: ôn lại kiến thức sau 1 ngày.'][new Date().getDay()%4]}
+function subjectHTML(s){const count=data.quizHistory.filter(q=>q.subject===s.id).length;return `<button class="subject" data-subject="${esc(s.id)}"><span class="emoji">${esc(s.emoji)}</span><strong>${esc(s.name)}</strong><div class="muted small">${esc(s.desc||'Môn học của bạn')}</div><div class="progress"><i style="width:${Math.min(100,count*12)}%;background:${esc(s.color||'var(--primary)')}"></i></div><div class="small muted">${count} quiz đã làm</div></button>`}
+function renderSubjects(){$('#subjectList').innerHTML=data.subjects.map(subjectHTML).join('')||'<div class="empty">Chưa có môn học.</div>'}
+function subjectName(id){return data.subjects.find(s=>s.id===id)?.name||'Tổng hợp'}
+function quizPool(subject){let pool=questionBank.concat(data.customQuestions||[]);if(subject&&subject!=='all')pool=pool.filter(q=>q.s===subject);return pool.length?pool:questionBank}
+function updateQuizSelect(){const el=$('#quizSubject'),old=el.value;el.innerHTML='<option value="all">Tất cả môn</option>'+data.subjects.map(s=>`<option value="${esc(s.id)}">${esc(s.name)}</option>`).join('');if([...el.options].some(o=>o.value===old))el.value=old}
+function startQuiz(){updateQuizSelect();const pool=quizPool($('#quizSubject').value);const shuffled=[...pool].sort(()=>Math.random()-.5);quizState={questions:shuffled.slice(0,Math.min(10,shuffled.length)),index:0,score:0,answered:false,answers:[]};renderQuiz()}
+function renderQuiz(){const b=$('#quizBox');if(!quizState)return;if(quizState.index>=quizState.questions.length){const pct=Math.round(quizState.score/quizState.questions.length*100);b.innerHTML=`<div class="empty"><div class="result-big">${pct}%</div><h3>Hoàn thành quiz!</h3><p>Bạn đúng ${quizState.score}/${quizState.questions.length} câu.</p><button class="btn primary" id="retryQuiz">Làm lại</button> <button class="btn" id="quizToStats">Xem thống kê</button></div>`;const subject=$('#quizSubject').value;data.quizHistory.unshift({id:uid(),date:new Date().toISOString(),subject,score:quizState.score,total:quizState.questions.length,percent:pct,kind:'quiz'});data.quizHistory=data.quizHistory.slice(0,100);logActivity();renderHome();save();$('#retryQuiz').onclick=startQuiz;$('#quizToStats').onclick=()=>go('stats');return}
+const q=quizState.questions[quizState.index];b.innerHTML=`<div class="between"><span class="pill">${esc(subjectName(q.s))}</span><span class="muted small">Câu ${quizState.index+1}/${quizState.questions.length}</span></div><div class="progress"><i style="width:${(quizState.index+1)/quizState.questions.length*100}%"></i></div><h3 style="font-size:19px;margin:18px 0">${esc(q.q)}</h3><div class="quiz-options">${q.o.map((o,i)=>`<button class="option" data-answer="${i}" ${quizState.answered?'disabled':''}>${String.fromCharCode(65+i)}. ${esc(o)}</button>`).join('')}</div><div id="quizFeedback" style="margin-top:12px"></div><div class="between" style="margin-top:14px"><span class="muted small">Điểm: ${quizState.score}</span><button class="btn primary ${quizState.answered?'':'hide'}" id="nextQuestion">Câu tiếp →</button></div>`}
+function answerQuiz(i){if(quizState.answered)return;const q=quizState.questions[quizState.index];quizState.answered=true;const ok=i===q.a;if(ok)quizState.score++;else{data.reviewQuestions=data.reviewQuestions||[];if(!data.reviewQuestions.some(x=>x.q===q.q)){data.reviewQuestions.unshift({...q,reviewId:uid(),wrongAt:new Date().toISOString(),reviewCount:0})}save()}quizState.answers.push({q:q.q,selected:i,correct:q.a,ok});$$('[data-answer]').forEach((el,j)=>{el.disabled=true;if(j===q.a)el.classList.add('correct');else if(j===i)el.classList.add('wrong')});$('#quizFeedback').innerHTML=`<div class="notice">${ok?'✅ Chính xác!':'💡 Chưa đúng.'} ${esc(q.e||'')}</div>`;$('#nextQuestion').classList.remove('hide');beep(ok?780:300)}
+function renderCards(){const cards=data.cards;if(!cards.length){$('#flashcard').innerHTML='Chưa có thẻ.<small>Nhấn “Tạo thẻ” để bắt đầu.</small>';$('#cardCount').textContent='0 thẻ';$('#cardList').innerHTML='<div class="empty">Chưa có flashcard.</div>';return}cardIndex=(cardIndex+cards.length)%cards.length;$('#cardCount').textContent=`Thẻ ${cardIndex+1}/${cards.length}`;$('#flashcard').innerHTML=`${esc(cardFlipped?cards[cardIndex].back:cards[cardIndex].front)}<small>${cardFlipped?'MẶT SAU':'CHẠM ĐỂ LẬT'}</small>`;$('#cardList').innerHTML=cards.map((c,i)=>`<div class="note"><div class="between"><strong>${esc(c.front)}</strong><button class="btn danger" data-delete-card="${i}">Xóa</button></div><div class="muted small">${esc(c.back)}</div></div>`).join('')}
+function renderNotes(){const term=($('#noteSearch')?.value||'').toLowerCase();const arr=data.notes.filter(n=>(n.title+' '+n.body).toLowerCase().includes(term));$('#notesList').innerHTML=arr.length?arr.slice().reverse().map(n=>`<div class="note"><div class="between"><strong>${esc(n.title||'Ghi chú chưa đặt tên')}</strong><button class="btn danger" data-delete-note="${esc(n.id)}">Xóa</button></div><div class="small muted">${new Date(n.date).toLocaleString('vi-VN')}</div><p>${esc(n.body)}</p></div>`).join(''):'<div class="empty">Chưa có ghi chú phù hợp.</div>'}
+function renderStats(){const total=data.quizHistory.length,avg=total?Math.round(data.quizHistory.reduce((s,q)=>s+q.percent,0)/total):0;$('#statsGrid').innerHTML=statCard('🔥 Chuỗi ngày',streak(),'ngày liên tiếp')+statCard('⏱ Phiên tập trung',data.sessions.length,'đã hoàn tất')+statCard('✓ Quiz',total,'bài đã làm')+statCard('🎯 Điểm trung bình',avg+'%','trên các bài quiz');$('#statsChart').innerHTML=chartHTML();$('#quizHistory').innerHTML=data.quizHistory.length?data.quizHistory.slice(0,20).map(q=>`<div class="between" style="padding:10px 0;border-bottom:1px solid var(--line)"><div><strong>${esc(q.kind==='exam'?'Thi thử':'Quiz')} · ${esc(subjectName(q.subject))}</strong><div class="small muted">${new Date(q.date).toLocaleString('vi-VN')}</div></div><span class="pill">${q.score}/${q.total} · ${q.percent}%</span></div>`).join(''):'<div class="empty">Chưa có kết quả. Hãy làm một bài quiz!</div>'}
+function renderExamIntro(){$('#examBox').innerHTML=`<h3>Bài thi tổng hợp</h3><p class="muted">10 câu hỏi ngẫu nhiên · 5 phút · Không thể xem đáp án cho đến khi nộp bài.</p><div class="notice">Đồng hồ thi chỉ chạy khi trang thi đang mở. Khi hết giờ, bài sẽ tự nộp.</div><button class="btn primary" id="startExam" style="margin-top:14px">Bắt đầu thi thử</button>`}
+function startExam(){const qs=[...questionBank,...(data.customQuestions||[])].sort(()=>Math.random()-.5).slice(0,10);examState={questions:qs,answers:{},remaining:300,submitted:false};renderExam();clearInterval(examInterval);examInterval=setInterval(()=>{if(!examState||examState.submitted)return;examState.remaining--;const t=$('#examTime');if(t)t.textContent=formatTime(examState.remaining);if(examState.remaining<=0)submitExam()},1000)}
+function renderExam(){const e=$('#examBox');e.innerHTML=`<div class="between"><span class="pill">THI THỬ · ${examState.questions.length} câu</span><strong>⏱ <span id="examTime">${formatTime(examState.remaining)}</span></strong></div><div class="progress"><i style="width:100%"></i></div>${examState.questions.map((q,i)=>`<div style="padding:14px 0;border-bottom:1px solid var(--line)"><strong>${i+1}. ${esc(q.q)}</strong><div class="quiz-options" style="margin-top:8px">${q.o.map((o,j)=>`<label class="option" style="display:flex;gap:8px;align-items:center"><input type="radio" name="exam${i}" value="${j}" ${examState.answers[i]===j?'checked':''}> ${String.fromCharCode(65+j)}. ${esc(o)}</label>`).join('')}</div></div>`).join('')}<button class="btn primary" id="submitExam" style="margin-top:16px">Nộp bài</button>`}
+function submitExam(){if(!examState||examState.submitted)return;examState.submitted=true;clearInterval(examInterval);let score=0;examState.questions.forEach((q,i)=>{if(examState.answers[i]===q.a)score++});const pct=Math.round(score/examState.questions.length*100);data.quizHistory.unshift({id:uid(),date:new Date().toISOString(),subject:'all',score,total:examState.questions.length,percent:pct,kind:'exam'});logActivity();save();$('#examBox').innerHTML=`<div class="empty"><div class="result-big">${pct}%</div><h3>Đã nộp bài</h3><p>Điểm: ${score}/${examState.questions.length}. ${pct>=80?'Rất tốt!':pct>=50?'Tiếp tục luyện tập nhé.':'Hãy ôn lại kiến thức và thử lần nữa.'}</p><button class="btn primary" id="examAgain">Thi lại</button> <button class="btn" id="examReview">Xem thống kê</button></div>`;$('#examAgain').onclick=()=>{examState=null;renderExamIntro()};$('#examReview').onclick=()=>go('stats');renderHome()}
+function formatTime(n){n=Math.max(0,n);return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}
+function setTimerMode(mode){timerMode=mode;clearInterval(timerInterval);timerInterval=null;const mins=data.settings[mode]||25;remaining=mins*60;$('#timerMode').textContent=({focus:'TẬP TRUNG',short:'NGHỈ NGẮN',long:'NGHỈ DÀI'})[mode];$('#timerDisplay').textContent=formatTime(remaining);$('#timerStart').textContent='▶ Bắt đầu';$$('.modeBtn').forEach(b=>b.classList.toggle('primary',b.dataset.mode===mode))}
+function toggleTimer(){if(timerInterval){clearInterval(timerInterval);timerInterval=null;$('#timerStart').textContent='▶ Tiếp tục';return}$('#timerStart').textContent='Ⅱ Tạm dừng';timerInterval=setInterval(()=>{remaining--;$('#timerDisplay').textContent=formatTime(remaining);if(remaining<=0){clearInterval(timerInterval);timerInterval=null;$('#timerStart').textContent='▶ Bắt đầu';beep(880,.35);if(timerMode==='focus'){data.sessions.push({date:new Date().toISOString(),minutes:data.settings.focus});logActivity();save();renderHome();alert('Hoàn thành phiên tập trung! Hãy nghỉ một chút.')}else alert('Hết giờ nghỉ! Sẵn sàng học tiếp nhé.');setTimerMode(timerMode==='focus'?'short':'focus')}},1000)}
+function addSubject(){const name=prompt('Tên môn học mới:');if(!name||!name.trim())return;const emoji=prompt('Biểu tượng (ví dụ 📘):','📘')||'📘';data.subjects.push({id:uid(),name:name.trim().slice(0,50),emoji:emoji.slice(0,8),desc:'Môn học cá nhân',color:'#7183ff',goal:10});save();renderSubjects();renderHome();updateQuizSelect()}
+function addCard(){const front=prompt('Mặt trước của flashcard:');if(!front||!front.trim())return;const back=prompt('Mặt sau / lời giải:');if(back===null)return;data.cards.push({id:uid(),front:front.trim().slice(0,500),back:back.trim().slice(0,2000)});cardIndex=data.cards.length-1;cardFlipped=false;save();renderCards();beep()}
+function exportBackup(){const payload={app:'StudyFlow',version:3,exportedAt:new Date().toISOString(),data};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='studyflow-backup-'+today()+'.json';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);$('#backupMsg').textContent='Đã tạo yêu cầu tải bản sao lưu. Hãy kiểm tra thư mục Tải xuống.'}
+async function importBackup(){const f=$('#importFile').files[0];if(!f){$('#backupMsg').textContent='Hãy chọn một tệp JSON trước.';return}try{const parsed=JSON.parse(await f.text()),d=parsed.data||parsed;if(!d||typeof d!=='object'||!Array.isArray(d.notes)||!Array.isArray(d.cards)||!Array.isArray(d.subjects))throw Error('Cấu trúc dữ liệu không hợp lệ: cần có notes, cards và subjects dạng mảng.');
+if((d.notes.length>5000)||(d.cards.length>5000)||(d.subjects.length>500))throw Error('Tệp có quá nhiều mục, đã từ chối để bảo vệ thiết bị.');
+if(d.customQuestions!==undefined&&!Array.isArray(d.customQuestions))throw Error('customQuestions phải là một mảng.');
+if(d.quizHistory!==undefined&&!Array.isArray(d.quizHistory))throw Error('quizHistory phải là một mảng.');if(!confirm('Khôi phục sẽ thay thế dữ liệu hiện tại. Bạn muốn tiếp tục?'))return;data={...structuredClone(initial),...d,settings:{...initial.settings,...d.settings},activity:d.activity||{},notes:d.notes,cards:d.cards,subjects:mergeSubjects(d.subjects),sessions:d.sessions||[],quizHistory:d.quizHistory||[],tasks:Array.isArray(d.tasks)?d.tasks:[],reviewQuestions:Array.isArray(d.reviewQuestions)?d.reviewQuestions:[],dailyGoal:Number(d.dailyGoal)||2,achievements:Array.isArray(d.achievements)?d.achievements:[],notificationEnabled:!!d.notificationEnabled,customQuestions:Array.isArray(d.customQuestions)?d.customQuestions:[]};save();setTheme(data.theme||'light');setSound(!!data.sound);renderAll();$('#backupMsg').textContent='Khôi phục thành công.'}catch(e){$('#backupMsg').textContent='Không thể khôi phục: '+e.message}}
+function renderAll(){setTheme(data.theme||'light');setSound(data.sound!==false);renderNav();renderHome();renderSubjects();updateQuizSelect();renderCards();renderNotes();renderStats();setTimerMode('focus');$('#focusLength').value=data.settings.focus;$('#shortLength').value=data.settings.short;$('#longLength').value=data.settings.long}
+document.addEventListener('click',e=>{const goBtn=e.target.closest('[data-go]');if(goBtn){go(goBtn.dataset.go);return}const ans=e.target.closest('[data-answer]');if(ans){answerQuiz(Number(ans.dataset.answer));return}const sub=e.target.closest('[data-subject]');if(sub){go('quiz');$('#quizSubject').value=sub.dataset.subject;startQuiz();return}const dn=e.target.closest('[data-delete-note]');if(dn){if(confirm('Xóa ghi chú này?')){data.notes=data.notes.filter(n=>n.id!==dn.dataset.deleteNote);save();renderNotes()}return}const dc=e.target.closest('[data-delete-card]');if(dc){if(confirm('Xóa flashcard này?')){data.cards.splice(Number(dc.dataset.deleteCard),1);cardIndex=0;save();renderCards()}return}if(e.target.closest('#startExam')){startExam();return}if(e.target.closest('#submitExam')){submitExam();return}});
+$('#themeBtn').onclick=()=>setTheme(data.theme==='dark'?'light':'dark');
+$('#soundBtn').onclick=()=>setSound(!data.sound);
+$('#settingDark').onchange=e=>setTheme(e.target.checked?'dark':'light');
+$('#settingSound').onchange=e=>setSound(e.target.checked);
+$('#saveSettings').onclick=()=>{const f=Math.min(180,Math.max(1,Number($('#focusLength').value)||25)),s=Math.min(60,Math.max(1,Number($('#shortLength').value)||5)),l=Math.min(90,Math.max(1,Number($('#longLength').value)||15));data.settings={focus:f,short:s,long:l};save();setTimerMode(timerMode);alert('Đã lưu cài đặt.');};
+$('#quizSubject').onchange=()=>startQuiz();
+$('#retryQuiz')?.addEventListener('click',startQuiz);
+$('#nextCard').onclick=()=>{cardIndex++;cardFlipped=false;renderCards();beep()};
+$('#prevCard').onclick=()=>{cardIndex--;cardFlipped=false;renderCards();beep()};
+function flip(){cardFlipped=!cardFlipped;renderCards();beep(700)}
+$('#flashcard').onclick=flip;$('#flashcard').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}};
+$('#flipCard').onclick=flip;$('#addCardBtn').onclick=addCard;
+$('#saveNote').onclick=()=>{const title=$('#noteTitle').value.trim(),body=$('#noteBody').value.trim();if(!title&&!body){alert('Hãy nhập tiêu đề hoặc nội dung.');return}data.notes.push({id:uid(),title:title||'Ghi chú mới',body,date:new Date().toISOString()});save();$('#noteTitle').value='';$('#noteBody').value='';renderNotes();beep()};
+$('#noteSearch').oninput=renderNotes;
+$$('.modeBtn').forEach(b=>b.onclick=()=>setTimerMode(b.dataset.mode));
+$('#timerStart').onclick=toggleTimer;$('#timerReset').onclick=()=>setTimerMode(timerMode);
+$('#addSubjectBtn').onclick=addSubject;
+$('#exportBtn').onclick=exportBackup;$('#importBtn').onclick=importBackup;
+$('#clearData').onclick=()=>{if(confirm('Xóa vĩnh viễn dữ liệu StudyFlow trên trình duyệt này? Hãy sao lưu trước nếu cần.')){localStorage.removeItem(STORAGE_KEY);data=JSON.parse(JSON.stringify(initial));renderAll();$('#backupMsg').textContent='Đã đặt lại dữ liệu trên thiết bị.'}};
+
+window.addEventListener('beforeunload',()=>{if(timerInterval)clearInterval(timerInterval);if(examInterval)clearInterval(examInterval)});
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
+
+// ===== StudyFlow V3 features =====
+function dateLocal(d=new Date()){const x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`}
+function renderCalendar(){
+ const sel=$('#taskSubject');if(!sel)return;const prev=sel.value;
+ sel.innerHTML='<option value="all">Tổng hợp</option>'+data.subjects.map(s=>`<option value="${esc(s.id)}">${esc(s.name)}</option>`).join('');
+ if([...sel.options].some(o=>o.value===prev))sel.value=prev;
+ if(!$('#taskDate').value)$('#taskDate').value=dateLocal();
+ const tasks=[...(data.tasks||[])].sort((a,b)=>(a.date||'').localeCompare(b.date||'')||Number(a.done)-Number(b.done));
+ $('#taskSummary').textContent=`${tasks.filter(t=>!t.done).length} chưa xong · ${tasks.filter(t=>t.done).length} hoàn tất`;
+ $('#taskList').innerHTML=tasks.length?tasks.map(t=>`<div class="task-item"><input type="checkbox" data-task-done="${esc(t.id)}" ${t.done?'checked':''} aria-label="Đánh dấu hoàn tất"><div style="flex:1;min-width:0"><strong class="${t.done?'task-done':''}">${esc(t.title)}</strong><div class="small muted">${esc(t.date||'Chưa đặt ngày')} · ${esc(t.subject==='all'?'Tổng hợp':subjectName(t.subject))}</div></div><button class="btn danger" data-task-delete="${esc(t.id)}">Xóa</button></div>`).join(''):'<div class="empty">Chưa có nhiệm vụ. Hãy thêm một việc nhỏ để bắt đầu.</div>';
+}
+function renderGoals(){
+ const todaySessions=(data.sessions||[]).filter(s=>String(s.date||'').slice(0,10)===dateLocal()).length;
+ const goal=Math.max(1,Number(data.dailyGoal)||2);
+ $('#goalStats').innerHTML=statCard('🎯 Mục tiêu',goal,'phiên mỗi ngày')+statCard('⏱ Hôm nay',todaySessions,'phiên hoàn tất')+statCard('🔥 Chuỗi ngày',streak(),'ngày liên tiếp')+statCard('🏅 Thành tựu',(data.achievements||[]).length,'đã mở khóa');
+ $('#dailyGoalInput').value=goal;
+ $('#goalProgress').innerHTML=`<div class="between"><strong>Tiến độ hôm nay</strong><span>${Math.min(todaySessions,goal)}/${goal}</span></div><div class="progress"><i style="width:${Math.min(100,todaySessions/goal*100)}%"></i></div>`;
+ const awards=[{id:'first',title:'Bắt đầu hành trình',desc:'Hoàn thành phiên tập trung đầu tiên',ok:data.sessions.length>=1},{id:'five',title:'Tập trung bền bỉ',desc:'Hoàn thành 5 phiên tập trung',ok:data.sessions.length>=5},{id:'quiz',title:'Thử thách trí tuệ',desc:'Hoàn thành quiz đầu tiên',ok:data.quizHistory.length>=1},{id:'streak3',title:'Ba ngày liên tiếp',desc:'Học trong 3 ngày liên tiếp',ok:streak()>=3},{id:'goal',title:'Đạt mục tiêu hôm nay',desc:'Hoàn thành đủ phiên theo mục tiêu',ok:todaySessions>=goal}];
+ data.achievements=data.achievements||[];
+ awards.forEach(a=>{if(a.ok&&!data.achievements.includes(a.id))data.achievements.push(a.id)});
+ $('#achievementList').innerHTML=awards.map(a=>`<div class="task-item"><span style="font-size:23px">${a.ok?'🏆':'🔒'}</span><div><strong>${esc(a.title)}</strong><div class="small muted">${esc(a.desc)}</div></div><span class="pill">${a.ok?'Đã mở':'Chưa đạt'}</span></div>`).join('');
+ save();
+}
+function renderAdaptive(){
+ const qs=data.reviewQuestions||[];
+ $('#adaptiveStats').innerHTML=statCard('🧠 Cần ôn',qs.length,'câu trả lời sai được lưu')+statCard('📚 Bộ câu hỏi',questionBank.length+(data.customQuestions||[]).length,'câu có sẵn và cá nhân');
+ $('#reviewList').innerHTML=qs.length?qs.map(q=>`<div class="review-item"><div class="between"><span class="pill">${esc(subjectName(q.s))}</span><button class="btn" data-review-done="${esc(q.reviewId||q.q)}">Đã nhớ ✓</button></div><strong>${esc(q.q)}</strong><div class="small muted" style="margin-top:6px">Đáp án: ${esc((q.o||[])[q.a]||'')}</div><div class="small muted">${esc(q.e||'')}</div></div>`).join(''):'<div class="empty">Tuyệt! Chưa có câu nào cần ôn. Khi trả lời sai trong quiz, câu hỏi sẽ xuất hiện ở đây.</div>';
+}
+function startReview(){
+ const qs=data.reviewQuestions||[];if(!qs.length){alert('Chưa có câu cần ôn. Hãy làm quiz và trả lời sai một câu để thử tính năng này.');return}
+ const q=qs[0];go('quiz');$('#quizSubject').value=q.s;quizState={questions:[q],index:0,score:0,answered:false,answers:[]};renderQuiz();
+}
+function renderQuestionBank(){
+ const qs=data.customQuestions||[];
+ $('#questionCount').textContent=`${qs.length} câu`;
+ $('#customQuestionList').innerHTML=qs.length?qs.slice(0,100).map((q,i)=>`<div class="task-item"><div style="flex:1"><strong>${esc(q.q)}</strong><div class="small muted">${esc(subjectName(q.s))} · Đáp án: ${esc((q.o||[])[q.a]||'')}</div></div><button class="btn danger" data-q-delete="${i}">Xóa</button></div>`).join(''):'<div class="empty">Chưa có câu hỏi cá nhân. Bạn có thể nhập JSON ở phía trên.</div>';
+}
+function validateQuestions(raw){
+ if(!Array.isArray(raw))throw Error('Dữ liệu phải là một mảng JSON.');
+ if(raw.length>1000)throw Error('Mỗi lần chỉ nhập tối đa 1.000 câu hỏi.');
+ return raw.map((q,i)=>{
+  if(!q||typeof q!=='object'||typeof q.q!=='string'||!q.q.trim())throw Error(`Câu ${i+1}: thiếu nội dung q.`);
+  if(!Array.isArray(q.o)||q.o.length!==4||q.o.some(x=>typeof x!=='string'))throw Error(`Câu ${i+1}: o phải có đúng 4 lựa chọn dạng chữ.`);
+  const a=Number(q.a);if(!Number.isInteger(a)||a<0||a>3)throw Error(`Câu ${i+1}: a phải là số 0, 1, 2 hoặc 3.`);
+  const s=String(q.s||'all');if(s!=='all'&&!data.subjects.some(x=>x.id===s))throw Error(`Câu ${i+1}: mã môn "${s}" chưa tồn tại. Dùng "all" hoặc mã môn hợp lệ.`);
+  return {s,q:q.q.trim().slice(0,1000),o:q.o.map(x=>x.slice(0,500)),a,e:String(q.e||'').slice(0,2000)};
+ });
+}
+function importQuestionText(text){
+ try{const parsed=JSON.parse(text);const qs=validateQuestions(parsed);data.customQuestions=[...(data.customQuestions||[]),...qs];save();renderQuestionBank();$('#questionMsg').textContent=`Đã nhập ${qs.length} câu hỏi hợp lệ.`;beep();return true}
+ catch(e){$('#questionMsg').textContent='Không nhập được: '+e.message;return false}
+}
+function exportQuestions(){
+ const blob=new Blob([JSON.stringify(data.customQuestions||[],null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='studyflow-question-bank-'+dateLocal()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ $('#questionMsg').textContent='Đã tạo tệp JSON ngân hàng câu hỏi. Kiểm tra thư mục Tải xuống.';
+}
+function enableNotifications(){
+ if(!('Notification' in window)){alert('Trình duyệt này không hỗ trợ thông báo. Âm báo trong ứng dụng vẫn có thể dùng.');return}
+ Notification.requestPermission().then(p=>{
+  data.notificationEnabled=p==='granted';save();
+  alert(p==='granted'?'Đã cho phép thông báo khi ứng dụng đang mở.':'Chưa cấp quyền thông báo. Bạn có thể bật trong cài đặt trình duyệt.');
+ });
+}
+function sendStudyNotification(title,body){
+ if(data.notificationEnabled&&'Notification' in window&&Notification.permission==='granted'){
+  try{new Notification(title,{body,icon:'./icon.svg'})}catch(e){}
+ }
+}
+function safeV3Backup(){
+ const payload={app:'StudyFlow',version:3,exportedAt:new Date().toISOString(),data};
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='studyflow-v3-backup-'+dateLocal()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ $('#backupMsg').textContent='Đã tạo bản sao lưu V3. Hãy giữ tệp JSON ở nơi an toàn.';
+}
+function initV3(){
+ // Wire all new controls without replacing V2 handlers.
+ $('#addTask').onclick=()=>{const title=$('#taskTitle').value.trim();if(!title){alert('Hãy nhập nội dung nhiệm vụ.');return}
+  data.tasks=data.tasks||[];data.tasks.push({id:uid(),title:title.slice(0,140),date:$('#taskDate').value||dateLocal(),subject:$('#taskSubject').value||'all',done:false,createdAt:new Date().toISOString()});
+  $('#taskTitle').value='';save();renderCalendar();beep();
+ };
+ $('#saveGoal').onclick=()=>{data.dailyGoal=Math.max(1,Math.min(20,Number($('#dailyGoalInput').value)||2));save();renderGoals();alert('Đã lưu mục tiêu hằng ngày.')};
+ $('#startReview').onclick=startReview;
+ $('#importQuestions').onclick=()=>importQuestionText($('#questionJson').value);
+ $('#exportQuestions').onclick=exportQuestions;
+ $('#questionFile').onchange=async e=>{const f=e.target.files&&e.target.files[0];if(f)importQuestionText(await f.text())};
+ $('#importQuestions').addEventListener('click',()=>{});
+ $('#exportBtn').onclick=safeV3Backup;
+ $('#taskList').addEventListener('change',e=>{const el=e.target.closest('[data-task-done]');if(!el)return;const t=data.tasks.find(x=>x.id===el.dataset.taskDone);if(t){t.done=el.checked;save();renderCalendar();if(t.done)beep(740)}});
+ $('#taskList').addEventListener('click',e=>{const el=e.target.closest('[data-task-delete]');if(!el)return;if(confirm('Xóa nhiệm vụ này?')){data.tasks=data.tasks.filter(x=>x.id!==el.dataset.taskDelete);save();renderCalendar()}});
+ $('#reviewList').addEventListener('click',e=>{const el=e.target.closest('[data-review-done]');if(!el)return;data.reviewQuestions=(data.reviewQuestions||[]).filter(x=>(x.reviewId||x.q)!==el.dataset.reviewDone);save();renderAdaptive();beep(740)});
+ $('#customQuestionList').addEventListener('click',e=>{const el=e.target.closest('[data-q-delete]');if(!el)return;if(confirm('Xóa câu hỏi cá nhân này?')){data.customQuestions.splice(Number(el.dataset.qDelete),1);save();renderQuestionBank()}});
+ $('#settingSound').insertAdjacentHTML('afterend','<button class="btn" type="button" id="notificationBtn" style="margin:8px 0 12px">🔔 Cho phép thông báo (nếu hỗ trợ)</button>');
+ $('#notificationBtn').onclick=enableNotifications;
+ $('#aiSetupBtn').textContent='Xem hướng dẫn trong README';
+ const oldTimerHandler = toggleTimer;
+ // Keep timer logic intact; notifications are supplemental and only shown with permission.
+ renderCalendar();renderGoals();renderAdaptive();renderQuestionBank();
+}
+
+initV3();
+renderAll();
+})();
+
+// StudyFlow V4 AI proxy: secret stays on server, never in browser storage.
+let aiAbortController = null;
+const aiEndpointEl = document.getElementById('aiEndpoint');
+const aiPromptEl = document.getElementById('aiPrompt');
+const aiStatusEl = document.getElementById('aiStatus');
+const aiOutputEl = document.getElementById('aiOutput');
+const aiPillEl = document.getElementById('aiConnectionPill');
+function aiSetStatus(message, good=false) {
+  if (aiStatusEl) aiStatusEl.textContent = message;
+  if (aiPillEl) {
+    aiPillEl.textContent = good ? 'Máy chủ sẵn sàng' : 'Chưa kết nối';
+    aiPillEl.style.background = good ? '#dcfce7' : '';
+    aiPillEl.style.color = good ? '#166534' : '';
+  }
+}
+function aiEndpoint() {
+  const value = (aiEndpointEl?.value || '/api/ai').trim();
+  if (!value) return '/api/ai';
+  if (value.startsWith('/')) return value;
+  const url = new URL(value);
+  if (location.protocol === 'https:' && url.protocol !== 'https:') throw new Error('Trang HTTPS chỉ được gọi endpoint HTTPS.');
+  return url.toString();
+}
+async function aiRequest(testOnly=false) {
+  const sendBtn = document.getElementById('aiSendBtn');
+  const testBtn = document.getElementById('aiTestBtn');
+  const cancelBtn = document.getElementById('aiCancelBtn');
+  if (aiAbortController) aiAbortController.abort();
+  aiAbortController = new AbortController();
+  if (sendBtn) sendBtn.disabled = true;
+  if (testBtn) testBtn.disabled = true;
+  if (cancelBtn) cancelBtn.disabled = false;
+  if (aiOutputEl && !testOnly) { aiOutputEl.style.display='none'; aiOutputEl.textContent=''; }
+  aiSetStatus(testOnly ? 'Đang kiểm tra máy chủ...' : 'Đang gửi câu hỏi đến AI...');
+  try {
+    const endpoint = aiEndpoint();
+    const prompt = (aiPromptEl?.value || '').trim();
+    if (!testOnly && !prompt) throw new Error('Hãy nhập câu hỏi trước khi gửi.');
+    let imageData = null;
+    const imageFile = document.getElementById('aiImageFile')?.files?.[0];
+    if (!testOnly && imageFile) {
+      if (!/^image\/(png|jpeg|webp|gif)$/.test(imageFile.type)) throw new Error('Ảnh phải là PNG, JPEG, WEBP hoặc GIF.');
+      if (imageFile.size > 5 * 1024 * 1024) throw new Error('Ảnh tối đa 5 MB. Hãy nén ảnh rồi thử lại.');
+      imageData = await new Promise((resolve, reject) => {
+        const reader = new FileReader(); reader.onload = () => resolve(String(reader.result || '')); reader.onerror = () => reject(new Error('Không đọc được ảnh.'));
+        reader.readAsDataURL(imageFile);
+      });
+    }
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(testOnly ? {action:'health'} : {prompt: imageData ? (prompt || 'Hãy đọc và giải bài trong ảnh, trình bày từng bước bằng tiếng Việt.') : prompt, imageData, model: (document.getElementById('aiModel')?.value === 'custom' ? document.getElementById('aiCustomModel')?.value.trim() : document.getElementById('aiModel')?.value), mode: document.getElementById('aiMode')?.value}),
+      signal: aiAbortController.signal
+    });
+    const data = await response.json().catch(()=>({}));
+    if (!response.ok) throw new Error(data.error || `Máy chủ trả về lỗi HTTP ${response.status}.`);
+    if (testOnly) {
+      aiSetStatus(data.message || 'Kết nối máy chủ thành công. Hãy thử gửi câu hỏi.', true);
+    } else {
+      const answer = data.answer || data.output_text || data.text;
+      if (!answer) throw new Error('Máy chủ phản hồi nhưng không có nội dung trả lời.');
+      aiOutputEl.textContent = answer;
+      aiOutputEl.style.display = 'block';
+      aiSetStatus('AI đã trả lời thành công.', true);
+    }
+  } catch (error) {
+    if (error.name === 'AbortError') aiSetStatus('Đã hủy yêu cầu.');
+    else if (error instanceof TypeError) aiSetStatus('Không kết nối được máy chủ. Kiểm tra endpoint, HTTPS, mạng và CORS.');
+    else aiSetStatus(error.message || 'Có lỗi khi gọi AI.');
+  } finally {
+    aiAbortController = null;
+    if (sendBtn) sendBtn.disabled = false;
+    if (testBtn) testBtn.disabled = false;
+    if (cancelBtn) cancelBtn.disabled = true;
+  }
+}
+document.getElementById('aiSendBtn')?.addEventListener('click', () => aiRequest(false));
+document.getElementById('aiTestBtn')?.addEventListener('click', () => aiRequest(true));
+document.getElementById('aiCancelBtn')?.addEventListener('click', () => { if (aiAbortController) aiAbortController.abort(); });
+
+
+const aiModelEl = document.getElementById('aiModel');
+const aiCustomModelWrap = document.getElementById('aiCustomModelWrap');
+aiModelEl?.addEventListener('change', () => {
+  if (aiCustomModelWrap) aiCustomModelWrap.style.display = aiModelEl.value === 'custom' ? 'block' : 'none';
+});
+
+</script>
+
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const KEY='studyflow-v6-extra';let st={pet:{name:'Mèo Neon',xp:0,coins:8,hunger:0},theme:'light',color:'#5267e8',hidden:[],reviews:{}};
+try{st={...st,...JSON.parse(localStorage.getItem(KEY)||'{}')};st.pet={name:'Mèo Neon',xp:0,coins:8,hunger:0,...st.pet};st.reviews=st.reviews||{}}catch{}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch{}};
+function pet(){let p=st.pet;$('#petFace').textContent=p.xp>=700?'🐉':p.xp>=300?'🦊':'🐱';$('#petName').textContent=p.name;$('#petMood').textContent=p.hunger>=5?'Pet đói rồi!':p.xp>=100?'Pet đang tiến hóa nhờ chăm chỉ học!':'Pet vui vì học cùng bạn.';$('#petProgress').style.width=(p.xp%100)+'%';$('#petStats').textContent=`XP: ${p.xp} · Xu: ${p.coins} · Cấp ${1+Math.floor(p.xp/100)}`}
+function reward(x,c){st.pet.xp+=x;st.pet.coins+=c;save();pet()}
+$('#petFeed')?.addEventListener('click',()=>{if(st.pet.coins<2){alert('Chưa đủ xu. Hãy trả lời câu hỏi khó để kiếm xu.');return}st.pet.coins-=2;st.pet.hunger=Math.max(0,st.pet.hunger-2);reward(2,0)});
+$('#petPlay')?.addEventListener('click',()=>{st.pet.hunger=Math.min(10,st.pet.hunger+1);reward(5,1)});
+$('#petRename')?.addEventListener('click',()=>{let n=prompt('Tên Pet:',st.pet.name);if(n&&n.trim()){st.pet.name=n.trim().slice(0,30);save();pet()}});
+const qs=[
+{q:'Nếu f(x)=2x²−3, f(−2) bằng bao nhiêu?',o:['5','−11','8','11'],a:0,e:'2×(−2)²−3 = 5.'},
+{q:'Vì sao hai góc nhọn trong tam giác vuông cộng lại bằng 90°?',o:['Tổng góc tam giác 180°','Do hai cạnh bằng nhau','Do Pythagore','Luôn bằng nhau'],a:0,e:'Tổng ba góc 180°, trừ góc vuông 90° còn 90°.'},
+{q:'Quang hợp chủ yếu diễn ra ở đâu?',o:['Ty thể','Lục lạp','Ribosome','Nhân tế bào'],a:1,e:'Lục lạp chứa diệp lục hấp thụ ánh sáng.'},
+{q:'Đơn vị SI của lực là gì?',o:['Joule','Watt','Newton','Pascal'],a:2,e:'Lực được đo bằng newton (N).'},
+{q:'Câu điều kiện loại 2 thường diễn tả gì?',o:['Sự thật hiển nhiên','Giả định hiện tại/tương lai','Việc đã xong','Mệnh lệnh'],a:1,e:'If + past simple, would + động từ nguyên mẫu.'},
+{q:'Biện pháp giảm thiên kiến xác nhận?',o:['Chỉ đọc ý kiến đồng tình','Tìm bằng chứng phản bác','Bỏ dữ liệu trái ý','Chọn kết quả mong muốn'],a:1,e:'Tìm bằng chứng phản bác giúp kiểm tra giả thuyết.'},
+{q:'Nguồn sử liệu sơ cấp là gì?',o:['Bài tổng hợp hiện đại','Sách giáo khoa mới','Tư liệu trực tiếp từ thời kỳ','Bài bình luận không nguồn'],a:2,e:'Nguồn sơ cấp xuất phát trực tiếp từ thời kỳ/sự kiện.'},
+{q:'Nếu 3x−7=11, x bằng bao nhiêu?',o:['4','6','8','18'],a:1,e:'3x=18 nên x=6.'},
+{q:'Trong tế bào, ty thể có vai trò chính nào?',o:['Tạo năng lượng hữu dụng','Lưu trữ di truyền duy nhất','Quang hợp','Tổng hợp cellulose'],a:0,e:'Ty thể tham gia hô hấp tế bào và tạo ATP.'}
+];let active=null;
+$('#petQuestion')?.addEventListener('click',()=>{active=qs[Math.floor(Math.random()*qs.length)];$('#petQuestionBox').innerHTML='<b>Thử thách khó</b><p>'+active.q+'</p>'+active.o.map((x,i)=>`<button class="btn v6-opt" data-pa="${i}" style="display:block;width:100%;text-align:left;margin:5px 0">${'ABCD'[i]}. ${x}</button>`).join('')+'<div id="petFeedback" class="small muted"></div>'});
+$('#petQuestionBox')?.addEventListener('click',e=>{let b=e.target.closest('[data-pa]');if(!b||!active)return;let ok=+b.dataset.pa===active.a;$('#petFeedback').textContent=(ok?'Chính xác! ':'Chưa đúng. ')+active.e;$$('#petQuestionBox [data-pa]').forEach(x=>x.disabled=true);if(ok)reward(12,4);else reward(2,0);active=null});
+$('#applyThemePreset')?.addEventListener('click',()=>{let t=$('#themePreset').value,c=$('#customColor').value;document.documentElement.dataset.theme=['dark','amoled','neon'].includes(t)?t:'light';if(t==='custom'){document.documentElement.style.setProperty('--primary',c);document.documentElement.style.setProperty('--primary2',c)}else{document.documentElement.style.removeProperty('--primary');document.documentElement.style.removeProperty('--primary2')}st.theme=t;st.color=c;save()});
+function navSet(){let navs=$$('.nav').filter(n=>n.dataset.page&&n.dataset.page!=='home'&&n.dataset.page!=='v6');$('#navCustomize').innerHTML=navs.map(n=>`<label class="checkrow"><input type="checkbox" value="${n.dataset.go}" ${st.hidden.includes(n.dataset.go)?'':'checked'}> ${n.innerText.trim()}</label>`).join('');$$('.nav').forEach(n=>{if(n.dataset.go&&st.hidden.includes(n.dataset.go))n.classList.add('hide')})}
+$('#saveNavCustomize')?.addEventListener('click',()=>{st.hidden=$$('#navCustomize input:not(:checked)').map(x=>x.value);save();$$('.nav').forEach(n=>{if(n.dataset.go)n.classList.toggle('hide',st.hidden.includes(n.dataset.go))})});
+function review(card,known){if(!card)return;st.reviews[card.id]={next:Date.now()+(known?7:1)*86400000,known};save();$('#reviewDueMsg').textContent=known?'Đã nhớ: lịch ôn lại sau 7 ngày.':'Cần ôn lại: thẻ đến hạn sau 1 ngày.'}
+$('#reviewKnown')?.addEventListener('click',()=>{let cards=JSON.parse(localStorage.getItem('studyflow-v2-data')||'{}').cards||[];review(cards[0],true)});
+$('#reviewAgain')?.addEventListener('click',()=>{let cards=JSON.parse(localStorage.getItem('studyflow-v2-data')||'{}').cards||[];review(cards[0],false)});
+$('#reviewDue')?.addEventListener('click',()=>{let cards=JSON.parse(localStorage.getItem('studyflow-v2-data')||'{}').cards||[];let due=cards.filter(c=>!st.reviews[c.id]||st.reviews[c.id].next<=Date.now());$('#reviewDueMsg').textContent=due.length?`Có ${due.length} thẻ đến hạn: `+due.slice(0,6).map(c=>c.front).join(' · '):'Chưa có thẻ đến hạn.'});
+$('#voiceInputBtn')?.addEventListener('click',()=>{let SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){$('#aiStatus').textContent='Trình duyệt chưa hỗ trợ nhận dạng giọng nói; hãy nhập bằng bàn phím.';return}let r=new SR();r.lang='vi-VN';r.onresult=e=>{$('#aiPrompt').value=($('#aiPrompt').value+' '+e.results[0][0].transcript).trim();$('#aiStatus').textContent='Đã nhận giọng nói. Nhấn gửi để hỏi AI.'};r.onerror=e=>$('#aiStatus').textContent='Lỗi giọng nói: '+e.error;r.start();$('#aiStatus').textContent='Đang nghe…'});
+$('#speakAnswerBtn')?.addEventListener('click',()=>{let t=$('#aiOutput')?.textContent||'';if(!t.trim()){alert('Chưa có câu trả lời để đọc.');return}if(!window.speechSynthesis){alert('Trình duyệt không hỗ trợ đọc văn bản.');return}speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='vi-VN';speechSynthesis.speak(u)});
+$('#aiImageFile')?.addEventListener('change',e=>{let f=e.target.files[0];if(f){$('#aiImageStatus').textContent=`Đã chọn ${f.name} (${Math.round(f.size/1024)} KB); sẽ gửi khi bạn nhấn Gửi câu hỏi.`;$('#aiStatus').textContent='Ảnh sẽ được gửi tới máy chủ đã cấu hình khi bạn nhấn Gửi. Cần model hỗ trợ ảnh.'}});
+$('#aiProvider')?.addEventListener('change',()=>{$('#aiStatus').textContent='Lựa chọn nhà cung cấp chỉ là giao diện. Cấu hình AI_BASE_URL/AI_API_KEY ở máy chủ để đổi thật.'});
+pet();navSet();if($('#themePreset'))$('#themePreset').value=st.theme;if($('#customColor'))$('#customColor').value=st.color;
+if(st.theme&&st.theme!=='light'){$('#applyThemePreset')?.click()}
+})();
+</script>
+
+
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const KEY='studyflow-v61-extra';
+const defaults={pets:[{id:'pet-'+Date.now(),species:'cat',name:'Mèo Neon',xp:0,hunger:0}],coins:10,boards:{},challenges:{},completedDays:[],points:0,history:[]};
+let s;try{s={...defaults,...JSON.parse(localStorage.getItem(KEY)||'{}')};s.pets=Array.isArray(s.pets)&&s.pets.length?s.pets:defaults.pets;s.boards=s.boards||{};s.challenges=s.challenges||{};s.completedDays=s.completedDays||[];s.history=s.history||[]}catch{s=JSON.parse(JSON.stringify(defaults))}
+const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){alert('Không thể lưu: bộ nhớ trình duyệt có thể đã đầy. Hãy xuất dữ liệu hoặc xóa bảng cũ.')}};
+const day=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const animals={cat:'🐱',dog:'🐶',fox:'🦊',rabbit:'🐰',panda:'🐼',dragon:'🐉',owl:'🦉',turtle:'🐢'};
+const activePet=()=>s.pets.find(p=>p.id===s.activePet)||s.pets[0];
+function renderPets(){const el=$('#petZoo');if(!el)return;el.innerHTML=s.pets.map(p=>`<button class="subject" data-pet="${esc(p.id)}" style="text-align:left;${p.id===s.activePet?'border:2px solid var(--primary)':''}"><span class="emoji">${animals[p.species]||'🐾'}</span><strong>${esc(p.name)}</strong><span class="small muted">Cấp ${1+Math.floor(p.xp/100)} · XP ${p.xp} · ${p.hunger>=5?'Đói':'Vui vẻ'}</span><div class="progress"><i style="width:${p.xp%100}%"></i></div><span class="small">Chạm để chọn</span></button>`).join('');}
+function streak(){let n=0,d=new Date();if(!s.completedDays.includes(day()))d.setDate(d.getDate()-1);for(let i=0;i<400;i++){let k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;if(!s.completedDays.includes(k))break;n++;d.setDate(d.getDate()-1)}return n}
+function renderChallenges(){const el=$('#dailyChallenges');if(!el)return;const tasks=[['study','Học tập trung ít nhất 15 phút',15],['note','Ghi một ghi chú hoặc công thức',10],['review','Ôn một flashcard hoặc quiz',10]];const done=s.challenges[day()]||[];el.innerHTML=tasks.map(([id,label,pts])=>`<div class="between" style="padding:10px 0;border-bottom:1px solid var(--line)"><div><strong>${esc(label)}</strong><div class="small muted">+${pts} điểm</div></div><button class="btn ${done.includes(id)?'':'primary'}" data-challenge="${id}" ${done.includes(id)?'disabled':''}>${done.includes(id)?'✓ Hoàn thành':'Hoàn thành'}</button></div>`).join('')+`<div class="notice" style="margin-top:10px">Chuỗi hiện tại: <b>${streak()} ngày</b> · Tổng điểm: <b>${s.points}</b></div>`;const lb=$('#achievementBoard');let rows=[{name:'Bạn (thiết bị này)',points:s.points,streak:streak(),days:s.completedDays.length},...(s.history||[])].sort((a,b)=>b.points-a.points).slice(0,10);lb.innerHTML=`<div class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:12px"><div class="notice"><b>${streak()}</b><br>Chuỗi hiện tại</div><div class="notice"><b>${s.completedDays.length}</b><br>Ngày đã học</div><div class="notice"><b>${s.points}</b><br>Điểm thử thách</div></div><h4>Bảng thành tích cục bộ</h4>`+rows.map((r,i)=>`<div class="between" style="padding:8px 0;border-bottom:1px solid var(--line)"><span>${i+1}. ${esc(r.name)}</span><span class="pill">${r.points} điểm · ${r.streak||0} ngày</span></div>`).join('')+`<div class="row" style="margin-top:10px"><input id="rankName" class="field inline" maxlength="24" placeholder="Tên hiển thị"><button class="btn" id="saveRank">Lưu thành tích trên thiết bị</button></div>`}
+function addChallenge(id){let k=day();s.challenges[k]=s.challenges[k]||[];if(s.challenges[k].includes(id))return;let points={study:15,note:10,review:10}[id]||5;s.challenges[k].push(id);s.points+=points;if(!s.completedDays.includes(k))s.completedDays.push(k);const p=activePet();if(p)p.xp+=points;persist();renderPets();renderChallenges()}
+$('#petAdopt')?.addEventListener('click',()=>{if(s.pets.length>=12){alert('Bạn có thể nuôi tối đa 12 thú trên thiết bị này.');return}let species=$('#petSpecies').value,name=$('#petNewName').value.trim()||({cat:'Mèo',dog:'Cún',fox:'Cáo',rabbit:'Thỏ',panda:'Gấu trúc',dragon:'Rồng',owl:'Cú mèo',turtle:'Rùa'}[species]||'Pet');const p={id:'pet-'+Date.now()+'-'+Math.random().toString(36).slice(2,6),species,name:name.slice(0,24),xp:0,hunger:0};s.pets.push(p);s.activePet=p.id;$('#petNewName').value='';persist();renderPets();});
+$('#petZoo')?.addEventListener('click',e=>{let b=e.target.closest('[data-pet]');if(b){s.activePet=b.dataset.pet;persist();renderPets()}});
+$('#petFeedAll')?.addEventListener('click',()=>{if(s.coins<2){$('#petZooMsg').textContent='Chưa đủ xu. Hãy hoàn thành thử thách hằng ngày.';return}let p=activePet();if(!p)return;s.coins-=2;p.hunger=Math.max(0,p.hunger-2);p.xp+=2;persist();renderPets();$('#petZooMsg').textContent=`Đã cho ${p.name} ăn. Số xu còn lại: ${s.coins}.`});
+$('#petPlayAll')?.addEventListener('click',()=>{let p=activePet();if(!p)return;p.hunger=Math.min(10,p.hunger+1);p.xp+=5;s.coins+=1;persist();renderPets();$('#petZooMsg').textContent=`Bạn vừa chơi cùng ${p.name}; +5 XP, +1 xu.`});
+$('#dailyChallenges')?.addEventListener('click',e=>{let b=e.target.closest('[data-challenge]');if(b)addChallenge(b.dataset.challenge)});
+$('#achievementBoard')?.addEventListener('click',e=>{if(e.target.id==='saveRank'){let name=$('#rankName').value.trim();if(!name){alert('Nhập tên hiển thị trước.');return}let me={name:name.slice(0,24),points:s.points,streak:streak(),days:s.completedDays.length};s.history=(s.history||[]).filter(x=>x.name!==me.name);s.history.push(me);persist();renderChallenges()}});
+const canvas=$('#studyBoard');let ctx=canvas?.getContext('2d'),drawing=false,eraser=false,last=null;
+function fitCanvas(){if(!canvas||!ctx)return;let saved=canvas.toDataURL();let rect=canvas.getBoundingClientRect(),dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=$('#boardColor')?.value||'#202938';ctx.lineWidth=Number($('#boardWidth')?.value||3);if(s.boards[$('#boardSubject')?.value]?.image){let im=new Image();im.onload=()=>ctx.drawImage(im,0,0,rect.width,rect.height);im.src=s.boards[$('#boardSubject').value].image}else{ctx.clearRect(0,0,rect.width,rect.height)}}
+function pos(e){let r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+canvas?.addEventListener('pointerdown',e=>{drawing=true;last=pos(e);canvas.setPointerCapture?.(e.pointerId);});
+canvas?.addEventListener('pointermove',e=>{if(!drawing||!ctx)return;let p=pos(e);ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.strokeStyle=eraser?'#ffffff':$('#boardColor').value;ctx.lineWidth=eraser?Math.max(18,Number($('#boardWidth').value)*4):Number($('#boardWidth').value);ctx.stroke();last=p;});
+['pointerup','pointercancel','pointerleave'].forEach(ev=>canvas?.addEventListener(ev,()=>{drawing=false;last=null}));
+$('#boardPen')?.addEventListener('click',()=>{eraser=false;$('#boardMsg').textContent='Đang dùng bút.'});
+$('#boardEraser')?.addEventListener('click',()=>{eraser=true;$('#boardMsg').textContent='Đang dùng tẩy.'});
+$('#boardClear')?.addEventListener('click',()=>{if(confirm('Xóa nét vẽ hiện tại?'))ctx?.clearRect(0,0,canvas.clientWidth,canvas.clientHeight)});
+function saveBoard(){let key=$('#boardSubject').value;s.boards[key]={image:canvas.toDataURL('image/png'),text:$('#boardText').value,updated:new Date().toISOString()};persist();$('#boardMsg').textContent=`Đã lưu bảng ${key} trên thiết bị.`;renderSavedBoards()}
+$('#boardSave')?.addEventListener('click',saveBoard);
+$('#boardSaveText')?.addEventListener('click',saveBoard);
+$('#boardSubject')?.addEventListener('change',()=>{let b=s.boards[$('#boardSubject').value];$('#boardText').value=b?.text||'';fitCanvas();$('#boardMsg').textContent=b?'Đã tải bảng đã lưu.':'Bảng mới, chưa lưu.'});
+$('#boardExport')?.addEventListener('click',()=>{let a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download='studyflow-board-'+$('#boardSubject').value.replace(/\s+/g,'-')+'.png';a.click()});
+function renderSavedBoards(){let el=$('#savedBoards');if(!el)return;el.innerHTML='<h4>Bảng đã lưu</h4>'+Object.entries(s.boards).map(([k,b])=>`<div class="note"><div class="between"><strong>${esc(k)}</strong><button class="btn" data-loadboard="${esc(k)}">Mở</button></div><p>${esc((b.text||'').slice(0,800))}</p><div class="small muted">${b.updated?new Date(b.updated).toLocaleString('vi-VN'):''}</div></div>`).join('')}
+$('#savedBoards')?.addEventListener('click',e=>{let b=e.target.closest('[data-loadboard]');if(!b)return;$('#boardSubject').value=b.dataset.loadboard;let d=s.boards[b.dataset.loadboard];$('#boardText').value=d.text||'';fitCanvas();$('#boardMsg').textContent='Đã mở bảng.'});
+$('#makeStudyPlan')?.addEventListener('click',()=>{let subject=$('#studySubject').value,mins=Math.max(10,Math.min(240,Number($('#studyMinutes').value)||45)),a=Math.round(mins*.15),b=Math.round(mins*.55),c=mins-a-b;$('#studyPlan').innerHTML=`<b>Kế hoạch ${mins} phút · ${esc(subject)}</b><ol><li>${a} phút: xem lại mục tiêu, công thức và ghi chú.</li><li>${b} phút: làm bài tập chủ động; ghi câu chưa hiểu lên bảng.</li><li>${c} phút: tự kiểm tra, sửa lỗi và tạo 3 flashcard.</li></ol><span class="small muted">Đây là kế hoạch theo mẫu cục bộ, không phải nội dung AI.</span>`});
+function exportExtra(){let blob=new Blob([JSON.stringify({app:'StudyFlow V7',version:1,exportedAt:new Date().toISOString(),extra:s},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='studyflow-v61-extra-'+day()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+// Keep the app's existing backup, and add a separate export/import for the V6.1 board/pet data.
+const backupCard=$('#page-backup .card');if(backupCard){let box=document.createElement('div');box.className='card';box.innerHTML='<h3>🐾 Sao lưu dữ liệu V6.1 bổ sung</h3><p class="muted">Bao gồm thú cưng, bảng viết, thử thách và thành tích cục bộ.</p><button class="btn primary" id="exportExtra">Tải sao lưu V6.1</button><input class="field" id="importExtraFile" type="file" accept=".json,application/json"><button class="btn" id="importExtra">Khôi phục phần V6.1</button><div id="extraBackupMsg" class="notice"></div>';backupCard.after(box);$('#exportExtra').onclick=exportExtra;$('#importExtra').onclick=async()=>{try{let f=$('#importExtraFile').files[0];if(!f)throw Error('Chọn tệp JSON trước.');let x=JSON.parse(await f.text()),v=x.extra||x;if(!Array.isArray(v.pets)||!v.boards||!Array.isArray(v.completedDays))throw Error('Tệp không đúng cấu trúc V6.1.');if(!confirm('Khôi phục sẽ thay thế dữ liệu bổ sung hiện tại. Tiếp tục?'))return;s={...defaults,...v};persist();renderPets();renderChallenges();renderSavedBoards();$('#extraBackupMsg').textContent='Đã khôi phục dữ liệu V6.1.'}catch(e){$('#extraBackupMsg').textContent='Không thể khôi phục: '+e.message}}}
+function init(){if(!s.activePet)s.activePet=s.pets[0]?.id;renderPets();renderChallenges();renderSavedBoards();let b=s.boards[$('#boardSubject')?.value];if(b)$('#boardText').value=b.text||'';fitCanvas();window.addEventListener('resize',()=>{ // redraw saved image after canvas resizes
+ const b=s.boards[$('#boardSubject')?.value];fitCanvas();if(!b?.image) return;
+});}
+init();
+})();
+</script>
+
+<script>
+(()=>{'use strict';const $=id=>document.getElementById(id);let token=sessionStorage.getItem('sf7-token')||'';
+async function api(route,method='GET',body){let r=await fetch('/api/'+route,{method,headers:{'Content-Type':'application/json',...(token?{'Authorization':'Bearer '+token}:{})},body:body?JSON.stringify(body):undefined});let j=await r.json();if(!r.ok)throw Error(j.error||'Máy chủ lỗi');return j}
+function status(t){$('onlineStatus').textContent=t}
+async function auth(action){try{let j=await api('auth/'+action,'POST',{username:$('onlineUser').value.trim(),password:$('onlinePass').value});token=j.token;sessionStorage.setItem('sf7-token',token);status('Đã đăng nhập: '+j.username);$('onlinePass').value='';refresh()}catch(e){status('Không thể '+(action==='login'?'đăng nhập':'đăng ký')+': '+e.message)}}
+async function refresh(){try{let j=await api('leaderboard');$('onlineRanks').replaceChildren();if(!j.rows.length){$('onlineRanks').textContent='Chưa có người dùng có điểm.';return}j.rows.forEach((r,i)=>{let d=document.createElement('div');d.className='between';d.style.padding='9px';let a=document.createElement('span');a.textContent=(i+1)+'. '+r.username;let b=document.createElement('strong');b.textContent=r.points+' điểm';d.append(a,b);$('onlineRanks').append(d)})}catch(e){$('onlineRanks').textContent='Bảng xếp hạng online chưa kết nối: '+e.message}}
+$('onlineLogin').onclick=()=>auth('login');$('onlineRegister').onclick=()=>auth('register');$('onlineLogout').onclick=async()=>{try{if(token)await api('auth/logout','POST')}catch{}token='';sessionStorage.removeItem('sf7-token');status('Đã đăng xuất')};$('onlineRefresh').onclick=refresh;
+$('onlineEarn').onclick=async()=>{try{let j=await api('checkin','POST');status('Điểm danh thành công! Tổng '+j.points+' điểm.');refresh()}catch(e){status(e.message)}};
+if(token)status('Đã có phiên đăng nhập trên tab này.');
+// Bảng viết là công cụ riêng, có thể mở từ bất cứ môn học nào.
+document.addEventListener('click',e=>{const card=e.target.closest('[data-subject]');if(card&&!card.querySelector('.sf7-board-link')){ /* giữ nguyên điều hướng môn */ }});
+})();
+</script></body>
+</html>
